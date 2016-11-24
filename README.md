@@ -1,3 +1,3 @@
 # whack
 
-The ehack implementation of team "Adala Nane"
+The whack implementation of team "Adala Nane"
