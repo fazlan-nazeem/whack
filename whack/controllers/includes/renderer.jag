@@ -1,0 +1,149 @@
+<%
+/*
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+var dbRoot;
+var dest;
+var renderEngine = {};
+var portalRoot;
+(function () {
+    var log = new Log();
+    var carbon = require('carbon');
+    var anonRole = String(carbon.user.anonRole);
+    var permissions = dashboard.permissions;
+    var anonymous = permissions.viewers.indexOf(anonRole) !== -1;
+    var db = require('/modules/dashboards.js');
+    var i18n = require("i18n");
+    i18n.init(request, utils.getLocaleResourcePath());
+    var ANON_VIEW = 'anon';
+    var ANONYMOUS_ROLE = 'anonymous';
+
+    /**
+     * Unauthorized error message.
+     * @const
+     */
+    var UNAUTHORIZED_ERROR = 'Dashboard access not authorized';
+    if (user) {
+        //identify edit/view permission for the logged user
+        if (utils.allowed(user.roles, permissions.owners)) {
+            user.isOwner = true;
+        } else if (utils.allowed(user.roles, permissions.editors)) {
+            user.isEditor = true;
+        } else if (utils.allowed(user.roles, permissions.viewers)) {
+            user.isViewer = true;
+        } else {
+            user.isOwner = false;
+            user.isEditor = false;
+            user.isViewer = false;
+        }
+    }
+    var isShared = false;
+    if (!anonymous) {
+        if (!user && !dashboard.isanon) {
+            sendLogin();
+            return;
+        }
+        isShared = dashboard.shareDashboard && userDomain !== superDomain;
+        if (!isShared) {
+            if (userDomain !== (urlDomain || superDomain) && !dashboard.isanon) {
+                response.sendError(401, UNAUTHORIZED_ERROR);
+                return;
+            }
+            if (!dashboard.isanon && !user.isEditor && !user.isViewer && !user.isOwner) {
+                response.sendError(401, UNAUTHORIZED_ERROR);
+                return;
+            }
+        }
+    }
+
+    pageId = pageId || dashboard.landing;
+    var currentPage;
+    if (pageId === null && isShared) {
+        if (dashboard.menu.length > 0) {
+            pageId = dashboard.menu[0].id;
+        }
+    }
+    if (pageId !== null) {
+        dashboard.pages.forEach(function (page) {
+            if (page.id == pageId) {
+                currentPage = page;
+            }
+        });
+    } else {
+        for (var i = 0; i < dashboard.menu.length; i++) {
+            if (!dashboard.menu[i].ishidden) {
+                getPage(dashboard.menu[i].id);
+                if (pageId !== null) {
+                    break;
+                }
+            }
+        }
+    }
+
+    function getPage(id) {
+        dashboard.pages.forEach(function (page) {
+            if (page.id === id) {
+                if (utils.isPageHasUserAllowedView(page)) {
+                    currentPage = page;
+                    pageId = page.id;
+                }
+            }
+        });
+    }
+    //check whether the page exists or not
+    if (!currentPage) {
+        response.sendError(404, i18n.localize("page.label") + " '" + pageId + "' " + i18n.localize("page.not.found"));
+        return;
+    } else if (!isShared && !request.getParameter('preview') && !utils.isPageHasUserAllowedView(currentPage)) {
+        response.sendError(401, i18n.localize("access.not.authorized"));
+        return;
+    }
+
+    if (!user) {
+        // if it is an anonymous user, check whether an anon view exists for the page
+        var pageLayoutContent = JSON.parse(JSON.stringify(currentPage.views.content));
+        var pageViews = Object.keys(pageLayoutContent);
+        var existsAnonView = false;
+        for (var i = 0; i < pageViews.length; i++) {
+            var viewRoles = currentPage.views.content[pageViews[i]].roles;
+            if (viewRoles === undefined && pageViews[i] === ANON_VIEW && currentPage.views.content.anon !== undefined) {
+                //check anon view of a previous dashboard json file
+                existsAnonView = true;
+                break;
+            } else if (viewRoles !== undefined && viewRoles.length > 0 && (viewRoles[0].toLowerCase() === ANONYMOUS_ROLE)) {
+                existsAnonView = true;
+                break;
+            }
+        }
+        if (!existsAnonView) {
+            response.sendError(404, i18n.localize("page.label") + " '" + pageId + "' " +
+                    i18n.localize("page.not.found"));
+            return;
+        }
+    } else {
+        //if it is a logged in user, check whether the user has edit/view/owner permission
+        if (!isShared && !(user.isEditor || user.isViewer || user.isOwner)) {
+            response.sendError(404, i18n.localize("page.label") + " '" + pageId + "' " +
+                    i18n.localize("page.not.found"));
+            return;
+        }
+    }
+
+    dbRoot = tenantedUrlPrefix + 'dashboards/' + dashboard.id + '/';
+    var isCustomDB = dashboard.isUserCustom;
+    portalRoot = tenantedUrlPrefix + 'dashboards/';
+
+    include(utils.resolvePath('templates/dashboard.jag'));
+}()); %>
