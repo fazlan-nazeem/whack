@@ -96,15 +96,14 @@
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
                     <div class="caption">
-                        <h3>Thumbnail label</h3>
-                        <p>Test</p>
+                        <h3>List Of Raw Leads</h3>
                         <p>
                             <ul class="list-group">
                                 <li class="list-group-item"><a href="<%=urlPrefix%>profile/fidelity">Fidelity</a></li>
                                 <li class="list-group-item"><a href="<%=urlPrefix%>profile/ebay">EBay</a></li>
-                                <li class="list-group-item"><a>Boeing</a></li>
-                                <li class="list-group-item"><a>TomaBros</a></li>
-                                <li class="list-group-item"><a>FazlanandSons</a></li>
+                                <li class="list-group-item"><a href="<%=urlPrefix%>profile/ebay">Boeing</a></li>
+                                <li class="list-group-item"><a href="<%=urlPrefix%>profile/ebay">TomaBros</a></li>
+                                <li class="list-group-item"><a href="<%=urlPrefix%>profile/ebay">Fazlan and Sons</a></li>
                             </ul>
                         </p>
                     </div>

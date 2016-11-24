@@ -1,7 +1,87 @@
 <html>
     <head>
+     <%
+        var config = require("/configs/whack.json");
+        var urlPrefix = config.urlPrefix;
+    %>
+        <script src="<%=urlPrefix%>libs/css-browser-selector_0.4.0/css_browser_selector.js"></script>
+
+        <!-- Bootstrap CSS -->
+        <link href="<%=urlPrefix%>libs/bootstrap_3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Font WSO2 CSS -->
+        <link href="<%=urlPrefix%>libs/font-wso2_1.0.0/css/font-wso2.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Jquery Nanoscroller CSS -->
+        <link href="<%=urlPrefix%>libs/nanoscroller_0.8.7/nanoscroller.css" rel="stylesheet" type="text/css" />
+
+        <!-- Theme WSO2 CSS -->
+        <link href="<%=urlPrefix%>libs/theme-wso2_1.0/css/theme-wso2.css" rel="stylesheet" type="text/css" />
+
+        <!-- Custom CSS -->
+        <link href="<%=urlPrefix%>css/custom.css" rel="stylesheet" type="text/css" />
+
+        <!-- Common CSS -->
+        <link href="<%=urlPrefix%>css/common.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <h1>hi</h1>
+        <div class="navbar-wrapper">
+            <nav class="navbar navbar-default affix-top" data-spy="affix" data-offset-top="80" data-offset-bottom="40">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">toggle.navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-menu-toggle" data-toggle="collapse" data-target="#navbar2" aria-expanded="true" aria-controls="navbar2">
+                            <span class="icon fw-stack">
+                                <i class="fw fw-down fw-stack-1x"></i>
+                            </span>
+                        </a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 0px;">
+                        <ul class="nav navbar-nav collapse-nav-sub">
+                        <li>
+                            <a href="create-dashboard">
+                                <span class="fw-stack">
+                                    <i class="fw fw-circle-outline fw-stack-2x"></i>
+                                    <i class="fw fw-add fw-stack-1x"></i>
+                                </span>create.dashboard
+                            </a>
+                        </li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+                <div id="navbar2" class="navbar-collapse dropdown tiles collapse" aria-expanded="true"><!-- nav-collapse -->
+                    <ul class="nav navbar-nav collapse-nav-sub">
+                        <li data-absolute-position="15" style="left: 15px; position: absolute; display: block;" aria-expanded="false">
+                            <a href="#"><i class="fw fw-dashboard"></i>dashboards.label</a>
+                        </li>
+                        <li data-absolute-position="145" style="left: 145px; position: absolute; display: block;" aria-expanded="false">
+                            <a href="gadget">
+                                <i class="fw fw-gadget"></i>gadgets
+                            </a>
+                        </li>
+                        <li data-absolute-position="275" style="left: 275px; position: absolute; display: block;" aria-expanded="false">
+                            <a href="layout"><i class="fw fw-layout"></i>layouts</a>
+                        </li>
+                    </ul>
+                </div><!--/ .nav-collapse -->
+            </nav>
+        </div>
+        <footer>
+            <script src="<%=urlPrefix%>libs/jquery_1.11.0/jquery-1.11.3.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="<%=urlPrefix%>libs/bootstrap_3.3.5/js/bootstrap.min.js"></script>
+            <!-- Handlebars -->
+            <script src="<%=urlPrefix%>libs/handlebars-v4.0.2/handlebars.min.js"></script>
+            <script src="<%=urlPrefix%>js/spin.min.js"></script>
+            <script src="<%=urlPrefix%>js/ladda.min.js"></script>
+            <script src="<%=urlPrefix%>js/ues.js"></script>
+            <script src="<%=urlPrefix%>js/ues-store.js"></script>
+            <script src="<%=urlPrefix%>js/portal.js"></script>
+        </footer>
     </body>
 </html>
