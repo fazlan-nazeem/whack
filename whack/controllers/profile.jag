@@ -1,0 +1,9 @@
+<%
+(function () {
+    /**
+     * Dashboards flag.
+     * @const
+     */
+    include("/theme/templates/profile.jag");
+}());
+%>
