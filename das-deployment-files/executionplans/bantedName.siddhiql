@@ -1,0 +1,25 @@
+/* Enter a unique ExecutionPlan */
+@Plan:name('bantedName')
+
+/* Enter a unique description for ExecutionPlan */
+-- @Plan:description('ExecutionPlan')
+
+/* define streams/tables and write queries here ... */
+@Import('bant_activity_stream:1.0.0')
+define stream bantActivity (AccountName string, FirstName string, LastName string, Email string, Title string, Company string, Country string, IPAddress string, Activity string, Timestamp string, Source string, SourceDetail string, Region string, BantDate string);
+
+
+@Export('banted_account_name:1.0.0')
+define stream bantAccountName (AccountName string, Company string, domainName string, Date long);
+
+from bantActivity 
+select Company, Timestamp, regex:group('(@)(.*)(\.)',Email,2)  as EmailDomain, Email
+insert into RLStreamModifiedEmailDomain;
+
+from RLStreamModifiedEmailDomain [EmailDomain != 'yahoo' and EmailDomain != 'gmail' and EmailDomain != 'hotmail']
+select EmailDomain as AccountName, Company, EmailDomain as domainName, 0L as Date
+insert into bantAccountName;
+
+from RLStreamModifiedEmailDomain [EmailDomain == 'yahoo' or EmailDomain == 'gmail' or EmailDomain == 'hotmail']
+select Company as AccountName, Company, EmailDomain as domainName, 0L as Date
+insert into bantAccountName;

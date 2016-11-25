@@ -1,0 +1,30 @@
+/* Enter a unique ExecutionPlan */
+@Plan:name('sqlName')
+
+/* Enter a unique description for ExecutionPlan */
+-- @Plan:description('ExecutionPlan')
+
+
+
+/* 1) Creating Email Domain and Account Name */
+
+@Import('sql_activity_stream:1.0.0')
+define stream sqlActivity (FirstName string, LastName string, Email string, Title string, Company string, Country string, IPaddress string, Activity string, Timestamp string, Source string, SourceDetail string);
+
+
+@Export('sql_account_name:1.0.0')
+define stream sqlAccount (AccountName string, Company string, domainName string, Date long);
+
+from sqlActivity 
+select Company, Timestamp, regex:group('(@)(.*)(\.)',Email,2)  as EmailDomain, Email
+insert into RLStreamModifiedEmailDomain;
+
+from RLStreamModifiedEmailDomain [EmailDomain != 'yahoo' and EmailDomain != 'gmail' and EmailDomain != 'hotmail']
+select EmailDomain as AccountName, Company, EmailDomain as domainName, time:timestampInMilliseconds (Timestamp,'MM/dd/yy') as Date
+insert into sqlAccount;
+
+from RLStreamModifiedEmailDomain [EmailDomain == 'yahoo' or EmailDomain == 'gmail' or EmailDomain == 'hotmail']
+select Company as AccountName, Company, EmailDomain as domainName, time:timestampInMilliseconds (Timestamp, 'MM/dd/yy') as Date
+insert into sqlAccount;
+
+                    

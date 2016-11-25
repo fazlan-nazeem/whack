@@ -1,0 +1,64 @@
+{
+  "name": "bant_activity_stream",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "AccountName",
+      "type": "STRING"
+    },
+    {
+      "name": "FirstName",
+      "type": "STRING"
+    },
+    {
+      "name": "LastName",
+      "type": "STRING"
+    },
+    {
+      "name": "Email",
+      "type": "STRING"
+    },
+    {
+      "name": "Title",
+      "type": "STRING"
+    },
+    {
+      "name": "Company",
+      "type": "STRING"
+    },
+    {
+      "name": "Country",
+      "type": "STRING"
+    },
+    {
+      "name": "IPAddress",
+      "type": "STRING"
+    },
+    {
+      "name": "Activity",
+      "type": "STRING"
+    },
+    {
+      "name": "Timestamp",
+      "type": "STRING"
+    },
+    {
+      "name": "Source",
+      "type": "STRING"
+    },
+    {
+      "name": "SourceDetail",
+      "type": "STRING"
+    },
+    {
+      "name": "Region",
+      "type": "STRING"
+    },
+    {
+      "name": "BantDate",
+      "type": "STRING"
+    }
+  ]
+}
