@@ -3,15 +3,15 @@
 <head>
 
 <%
-    var config = require("/configs/whack.json");
-    var urlPrefix = config.urlPrefix;
+var config = require("/configs/whack.json");
+var urlPrefix = config.urlPrefix;
 %>
 
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AuntieSocial</title>
-
+<link rel="shortcut icon" href="<%=urlPrefix%>libs/theme-wso2_1.0/images/favicon.png" />
 <link href="<%=urlPrefix%>/css/whack/bootstrap.min.css" rel="stylesheet">
 <link href="<%=urlPrefix%>/css/whack/datepicker3.css" rel="stylesheet">
 <link href="<%=urlPrefix%>/css/whack/styles.css" rel="stylesheet">
@@ -28,12 +28,13 @@
 </head>
 
 <body>
+    <input id="url" type="hidden" value="<%=urlPrefix%>"/>
 	<nav class="navbar navbar-inverse navbar-fixed-top nav-boxshadow" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
 				</button>
-				<a class="navbar-brand" href="#"><span>Auntie</span>Social</a>
+				<a class="navbar-brand" href="<%=urlPrefix%>"><span>Auntie</span>Social</a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Saliya <span class="caret"></span></a>

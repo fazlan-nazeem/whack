@@ -1,6 +1,6 @@
 <%
 (function () {
-    var log = new Log("SQL Details");
+    var log = new Log("User Activity");
     var config = require("/configs/whack.json");
     var urlPrefix = config.dasUrlPrefix;
     var authorization = config.authorization;

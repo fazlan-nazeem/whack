@@ -35,7 +35,7 @@ var urlPrefix = config.urlPrefix;
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
 				</button>
-				<a class="navbar-brand" href="#"><span>Auntie</span>Social</a>
+				<a class="navbar-brand" href="<%=urlPrefix%>"><span>Auntie</span>Social</a>
 				<ul class="user-menu">
 					<li class="dropdown pull-right">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Saliya <span class="caret"></span></a>
