@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+var accountName = "";
 $( document ).ready(function() {
     var title = $("#company-name-text").text();
     var companyName = $("#account-profile").data("company-name");
@@ -46,10 +47,68 @@ $( document ).ready(function() {
 
 });
 
-
-
 var viewData = function (data) {
     $("#account-profile").html(data);
     $(".references").remove();
     $(".ambox-Cleanup").remove();
+};
+
+var getNewRawLeadStats = function () {
+    $.ajax({
+        url: "/whack/apis/new-raw-leads.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            $("#txtNRL").text("" + 60);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getSQLStats = function () {
+    $.ajax({
+        url: "/whack/apis/sql.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            $("#txtSQL").text("" + 60);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getBantStats = function () {
+    $.ajax({
+        url: "/whack/apis/bant.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            $("#txtBanted").text("" + 60);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getNewUserStats = function () {
+    $.ajax({
+        url: "/whack/apis/user-activity.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            $("#txtUsers").text("" + 60);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
 };

@@ -72,7 +72,7 @@ var urlPrefix = config.urlPrefix;
                                 <svg class="glyph stroked star"><use xlink:href="#stroked-star"/></svg>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large">120</div>
+                                <div id="txtNRL" class="large">120</div>
                                 <div class="text-muted">New Raw Leads</div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@ var urlPrefix = config.urlPrefix;
                                 <svg class="glyph stroked checkmark"><use xlink:href="#stroked-checkmark"/></svg>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large">52</div>
+                                <div id="txtSQL" class="large">52</div>
                                 <div class="text-muted">SQLs</div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@ var urlPrefix = config.urlPrefix;
                                 <svg class="glyph stroked heart"><use xlink:href="#stroked-heart"/></svg>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large">24</div>
+                                <div id="txtBanted" class="large">24</div>
                                 <div class="text-muted">BANTed Users</div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@ var urlPrefix = config.urlPrefix;
                                 <svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
                             </div>
                             <div class="col-sm-9 col-lg-7 widget-right">
-                                <div class="large">25</div>
+                                <div id="txtUsers" class="large">25</div>
                                 <div class="text-muted">New Users</div>
                             </div>
                         </div>
