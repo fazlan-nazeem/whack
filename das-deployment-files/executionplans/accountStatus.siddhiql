@@ -1,0 +1,32 @@
+/* Enter a unique ExecutionPlan */
+@Plan:name('accountStatus')
+
+/* Enter a unique description for ExecutionPlan */
+-- @Plan:description('ExecutionPlan')
+
+/* define streams/tables and write queries here ... */
+
+@Import('newRawLead:1.0.0')
+define stream rawAccount (AccountName string, Company string, domainName string, Date long);
+
+@Import('banted_account_name:1.0.0')
+define stream bantAccount (AccountName string, Company string, domainName string, Date long);
+
+@Import('sql_account_name:1.0.0')
+define stream sqlAccount (AccountName string, Company string, domainName string, Date long);
+
+@Export('AccountStream:1.0.0')
+define stream accountStream (AccountName string, Company string, EmailDomain string, RL int, sql int, bant int);
+
+from rawAccount 
+select AccountName, Company, domainName as EmailDomain, 1 as RL, 0 as sql, 0 as bant
+insert into accountStream;
+
+from sqlAccount 
+select AccountName, Company, domainName as EmailDomain, 0 as RL, 1 as sql, 0 as bant
+insert into accountStream;
+
+from bantAccount 
+select AccountName, Company, domainName as EmailDomain, 0 as RL, 0 as sql, 1 as bant
+insert into accountStream;
+

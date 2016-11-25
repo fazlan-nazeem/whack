@@ -1,0 +1,24 @@
+/* Enter a unique ExecutionPlan */
+@Plan:name('rawleadAccount')
+
+/* Enter a unique description for ExecutionPlan */
+-- @Plan:description('ExecutionPlan')
+
+/* define streams/tables and write queries here ... */
+@Import('RLStream:1.0.0')
+define stream RawLeadStream (FirstName string, LastName string, Email string, Title string, Company string, Country string, IP string, Activity string, Timestamp string, Region string, Source string, Source_Detail string);
+
+@Export('newRawLead:1.0.0')
+define stream rawLeadWithTimestamp (AccountName string, Company string, domainName string, Date long);
+
+from RawLeadStream 
+select Company, Timestamp, regex:group('(@)(.*)(\.)',Email,2)  as EmailDomain, Email
+insert into RLStreamModifiedEmailDomain;
+
+from RLStreamModifiedEmailDomain [EmailDomain != 'yahoo' and EmailDomain != 'gmail' and EmailDomain != 'hotmail']
+select EmailDomain as AccountName, Company, EmailDomain as domainName, time:timestampInMilliseconds (Timestamp,'MM/dd/yy') as Date
+insert into rawLeadWithTimestamp;
+
+from RLStreamModifiedEmailDomain [EmailDomain == 'yahoo' or EmailDomain == 'gmail' or EmailDomain == 'hotmail']
+select Company as AccountName, Company, EmailDomain as domainName, time:timestampInMilliseconds (Timestamp, 'MM/dd/yy') as Date
+insert into rawLeadWithTimestamp;

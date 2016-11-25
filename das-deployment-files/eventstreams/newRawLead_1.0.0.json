@@ -1,0 +1,24 @@
+{
+  "name": "newRawLead",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "AccountName",
+      "type": "STRING"
+    },
+    {
+      "name": "Company",
+      "type": "STRING"
+    },
+    {
+      "name": "domainName",
+      "type": "STRING"
+    },
+    {
+      "name": "Date",
+      "type": "LONG"
+    }
+  ]
+}

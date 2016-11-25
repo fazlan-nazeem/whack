@@ -6,12 +6,14 @@
 
 
 
+@Plan:trace('true')
+
 @Import('RLStream:1.0.0')
 define stream RawLeadStream (FirstName string, LastName string, Email string, Title string, Company string, Country string, IP string, Activity string, Timestamp string, Region string, Source string, Source_Detail string);
 
 
 @From(eventtable='rdbms', jdbc.url='jdbc:mysql://localhost:3306/whackdb', username='root', password='321', driver.name='com.mysql.jdbc.Driver', table.name='productactivity')
-define table ProductActivityTable (AccountName string, ProductType string, DownloadCount int, WebinarCount int, WhitepaperCount int, CasestudyCount int);
+define table ProductActivityTable (AccountName string, ProductType string, DownloadCount int, WebinarCount int, WhitepaperCount int, CasestudyCount int, WorkshopCount int, Wso2conCount int);
 
 @From(eventtable='rdbms', jdbc.url='jdbc:mysql://localhost:3306/whackdb', username='root', password='321', driver.name='com.mysql.jdbc.Driver', table.name='userengagement')
 define table UserEngagementTable (AccountName string, Email string, FirstName string, LastName string, Title string, ActivityCount int);
@@ -44,7 +46,7 @@ select AccountName, Email, FirstName, LastName ,Title, ActivityCount
 update UserEngagementTable
 on ((UserEngagementTable.AccountName == AccountName) and (UserEngagementTable.Email == Email));
 
-from  RLStreamModifiedAccountName [not ((UserEngagementTable.AccountName == AccountName in UserEngagementTable ) and (UserEngagementTable.Email == Email in UserEngagementTable))]
+from  RLStreamModifiedAccountName [not ((UserEngagementTable.AccountName == AccountName  and UserEngagementTable.Email == Email) in UserEngagementTable)]
 select AccountName, Email , FirstName, LastName, Title ,1 as ActivityCount 
 insert into UserEngagementTable;
 
@@ -52,6 +54,22 @@ insert into UserEngagementTable;
 
 
 /* 2) Get product type from activity */
+
+from RLStreamModifiedAccountName [ (not str:contains(str:lower(Activity),'esb')) and (not str:contains(str:lower(Activity),'service bus')) and (not str:contains(str:lower(Activity),'soa')) and
+								    (not str:contains(str:lower(Activity),'is')) and (not str:contains(str:lower(Activity),'identity server')) and 
+								    (not str:contains(str:lower(Activity),'api')) and (not str:contains(str:lower(Activity),'api manager')) and (not str:contains(str:lower(Activity),'apim')) and
+								    (not str:contains(str:lower(Activity),'cep')) and (not str:contains(str:lower(Activity),'complex event')) and 
+								   (not str:contains(str:lower(Activity),'das')) and  (not str:contains(str:lower(Activity),'analytics')) and  (not str:contains(str:lower(Activity),'data analytics')) and (not str:contains(str:lower(Activity),'bam')) and
+								   (not str:contains(str:lower(Activity),'greg')) and  (not str:contains(str:lower(Activity),'governance')) and  (not str:contains(str:lower(Activity),'registry')) and
+								  (not str:contains(str:lower(Activity),'ues')) and (not str:contains(str:lower(Activity),'user engagement')) and
+								   (not str:contains(str:lower(Activity),'bps')) and  (not str:contains(str:lower(Activity),'business process')) and  (not str:contains(str:lower(Activity),'business activity')) and
+								  (not str:contains(str:lower(Activity),'dss')) and  (not str:contains(str:lower(Activity),'data services')) and  
+								  (not str:contains(str:lower(Activity),'as')) and (not str:contains(str:lower(Activity),'application server')) and
+								   (not str:contains(str:lower(Activity),'devs')) and  (not str:contains(str:lower(Activity),'dev studio'))
+								 ]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'Other' as ProductType
+insert into dbStream1; 
+
 
 from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'esb') or str:contains(str:lower(Activity),'service bus') or str:contains(str:lower(Activity),'soa')]
 select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'ESB' as ProductType	
@@ -69,23 +87,40 @@ from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'cep') or str
 select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'CEP' as ProductType	
 insert into dbStream1;										   
 					
-from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'das') or str:contains(str:lower(Activity),'analytics') or  str:contains(str:lower(Activity),'data analytics')]
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'das') or str:contains(str:lower(Activity),'analytics') or  str:contains(str:lower(Activity),'data analytics') or str:contains(str:lower(Activity),'bam')]
 select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'DAS' as ProductType	
 insert into dbStream1;												
 											   
 from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'greg') or str:contains(str:lower(Activity),'governance') or  str:contains(str:lower(Activity),'registry')]
 select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'GREG' as ProductType	
 insert into dbStream1;	
-
 											   
 from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'ues') or str:contains(str:lower(Activity),'user engagement')]
 select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'UES' as ProductType	
 insert into dbStream1;	
-	
+
 											   
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'bps') or str:contains(str:lower(Activity),'business process') or str:contains(str:lower(Activity),'business activity')]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'BPS' as ProductType	
+insert into dbStream1;	
+
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'dss') or str:contains(str:lower(Activity),'data services')]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'DSS' as ProductType	
+insert into dbStream1;	
+
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'as') or str:contains(str:lower(Activity),'application server')]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'AS' as ProductType	
+insert into dbStream1;	
+
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'devs') or str:contains(str:lower(Activity),'dev studio')]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'DevStudio' as ProductType	
+insert into dbStream1;	
+						
+
+				
 /* if account name not in ProductActivityTable in db, then insert */											   
-from dbStream1 [not (ProductActivityTable.AccountName == AccountName in ProductActivityTable) and not(ProductActivityTable.ProductType == ProductType in ProductActivityTable )]
-select AccountName, ProductType, 0 as DownloadCount, 0 as WebinarCount , 0 as WhitepaperCount, 0 as CasestudyCount
+from dbStream1 [not((ProductActivityTable.AccountName == AccountName and ProductActivityTable.ProductType == ProductType) in ProductActivityTable) ]
+select AccountName, ProductType, 0 as DownloadCount, 0 as WebinarCount , 0 as WhitepaperCount, 0 as CasestudyCount , 0 as WorkshopCount, 0 as Wso2conCount
 insert into ProductActivityTable;
 
 
@@ -107,6 +142,13 @@ from dbStream1 [str:contains(str:lower(Activity),'casestudy')]
 select FirstName, LastName, Email, Title, Company, Country , IP, 'CaseStudy' as Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
 insert into dbStream2;
 
+from dbStream1 [str:contains(str:lower(Activity),'workshop')]
+select FirstName, LastName, Email, Title, Company, Country , IP, 'Workshop' as Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into dbStream2;
+
+from dbStream1 [str:contains(str:lower(Activity),'wso2con')]
+select FirstName, LastName, Email, Title, Company, Country , IP, 'Wso2con' as Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into dbStream2;
 
 /* ===== */
 from dbStream2[Activity == "Download"]
@@ -125,6 +167,13 @@ from dbStream2[Activity == "CaseStudy"]
 select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
 insert into casestudyStream;
 
+from dbStream2[Activity == "Workshop"]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into workshopStream;
+
+from dbStream2[Activity == "Wso2con"]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into wso2conStream;
 
 
 
@@ -132,11 +181,11 @@ insert into casestudyStream;
 
 from downloadStream join ProductActivityTable
 on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType)
-select ProductActivityTable.AccountName , ProductActivityTable.ProductType, (ProductActivityTable.DownloadCount + 1) as DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount 
+select ProductActivityTable.AccountName , ProductActivityTable.ProductType, (ProductActivityTable.DownloadCount + 1) as DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount , WorkshopCount, Wso2conCount
 insert into downloadStreamModified;
 
 from downloadStreamModified
-select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount 
+select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount , WorkshopCount, Wso2conCount
 update ProductActivityTable
 on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType);
 
@@ -144,11 +193,11 @@ on (AccountName == ProductActivityTable.AccountName and ProductType == ProductAc
 
 from webinarStream join ProductActivityTable
 on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType)
-select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, (ProductActivityTable.WebinarCount + 1) as WebinarCount, WhitepaperCount, CasestudyCount 
+select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, (ProductActivityTable.WebinarCount + 1) as WebinarCount, WhitepaperCount, CasestudyCount , WorkshopCount, Wso2conCount
 insert into webinarStreamModified;
 
 from webinarStreamModified
-select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount 
+select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount , WorkshopCount, Wso2conCount
 update ProductActivityTable
 on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType);
 
@@ -156,11 +205,11 @@ on (AccountName == ProductActivityTable.AccountName and ProductType == ProductAc
 
 from whitepaperStream join ProductActivityTable
 on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType)
-select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, WebinarCount, (ProductActivityTable.WhitepaperCount + 1) as WhitepaperCount, CasestudyCount 
+select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, WebinarCount, (ProductActivityTable.WhitepaperCount + 1) as WhitepaperCount, CasestudyCount , WorkshopCount, Wso2conCount
 insert into whitepaperStreamModified;
 
 from whitepaperStreamModified
-select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount 
+select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount , WorkshopCount, Wso2conCount
 update ProductActivityTable
 on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType);
 
@@ -168,10 +217,34 @@ on (AccountName == ProductActivityTable.AccountName and ProductType == ProductAc
 
 from casestudyStream join ProductActivityTable
 on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType)
-select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, WebinarCount, WhitepaperCount, (ProductActivityTable.CasestudyCount + 1) as CasestudyCount 
+select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, WebinarCount, WhitepaperCount, (ProductActivityTable.CasestudyCount + 1) as CasestudyCount , WorkshopCount, Wso2conCount
 insert into casestudyStreamModified;
 
 from casestudyStreamModified
-select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount 
+select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount , WorkshopCount, Wso2conCount
+update ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType);
+
+/* ========= */
+
+from workshopStream join ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType)
+select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, WebinarCount, WhitepaperCount, (ProductActivityTable.CasestudyCount + 1) as CasestudyCount , WorkshopCount, Wso2conCount
+insert into workshopStreamModified;
+
+from workshopStreamModified
+select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount , WorkshopCount, Wso2conCount
+update ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType);
+
+/* ========= */
+
+from wso2conStream join ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType)
+select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, WebinarCount, WhitepaperCount, (ProductActivityTable.CasestudyCount + 1) as CasestudyCount , WorkshopCount, Wso2conCount
+insert into wso2conStreamModified;
+
+from wso2conStreamModified
+select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount , WorkshopCount, Wso2conCount
 update ProductActivityTable
 on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType);
