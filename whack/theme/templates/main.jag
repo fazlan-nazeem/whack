@@ -56,7 +56,7 @@ var urlPrefix = config.urlPrefix;
         <div class="col-sm-12 col-lg-12">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="page-header">Investigate more on <%=accountName%>...</h2>
+                    <h2 class="page-header">Investigate more on <span id="company-name-text"><%=accountName%></span>...</h2>
                 </div>
             </div><!--/.row-->
         </div>
@@ -75,16 +75,9 @@ var urlPrefix = config.urlPrefix;
                                         <div class="events">
                                             <ol>
                                                 <li><a href="#0" data-date="16/01/2014" class="selected">16 Jan</a></li>
-                                                <li><a href="#0" data-date="28/02/2014">28 Feb</a></li>
-                                                <li><a href="#0" data-date="20/04/2014">20 Mar</a></li>
-                                                <li><a href="#0" data-date="20/05/2014">20 May</a></li>
-                                                <li><a href="#0" data-date="09/07/2014">09 Jul</a></li>
-                                                <li><a href="#0" data-date="30/08/2014">30 Aug</a></li>
-                                                <li><a href="#0" data-date="15/09/2014">15 Sep</a></li>
-                                                <li><a href="#0" data-date="01/11/2014">01 Nov</a></li>
-                                                <li><a href="#0" data-date="10/12/2014">10 Dec</a></li>
-                                                <li><a href="#0" data-date="19/01/2015">29 Jan</a></li>
-                                                <li><a href="#0" data-date="03/03/2015">3 Mar</a></li>
+                                                <li><a href="#0" data-date="16/02/2014">28 Feb</a></li>
+                                                <li><a href="#0" data-date="16/03/2014">20 Mar</a></li>
+                                                <li><a href="#0" data-date="16/04/2014">20 May</a></li>
                                             </ol>
                                             <span class="filling-line" aria-hidden="true"></span>
                                         </div> <!-- .events -->
@@ -116,9 +109,9 @@ var urlPrefix = config.urlPrefix;
 
             <div class="row">
                 <div class="col-sm-7 col-lg-7">
-                    <div class="panel panel-default boxshadow">
+                    <div class="panel panel-default boxshadow panel-same-height">
                         <div class="panel-heading">Doughnut Chart</div>
-                        <div class="panel-body panel-same-height">
+                        <div class="panel-body">
                             <div class="canvas-wrapper">
                                 <canvas class="chart" id="doughnut-chart" ></canvas>
                             </div>
@@ -126,9 +119,9 @@ var urlPrefix = config.urlPrefix;
                     </div>
                 </div>
                 <div class="col-sm-5 col-lg-5">
-                    <div class="panel panel-default boxshadow">
+                    <div class="panel panel-default boxshadow panel-same-height">
                         <div class="panel-heading">Leads by Character</div>
-                        <div class="panel-body panel-same-height easypiechart-panel">
+                        <div class="panel-body easypiechart-panel">
                             <div class="row no-padding add-padding-left-2x add-padding-right-2x">
                                 <table class="col-sm-12">
                                     <tr>
@@ -240,10 +233,12 @@ var urlPrefix = config.urlPrefix;
 
         <div class="col-sm-3 col-lg-3">
             <div class="panel panel-default boxshadow">
-                    <div class="panel-heading dark-overlay"><svg class="glyph stroked star"><use xlink:href="#stroked-star"/></svg><span id="company-name-text">Fidelity Investments</span></div>
-                    <div class="panel-body" id="account-profile" data-account-name="fidelity investments" data-account-domain="fidelity.com" data-company-name="fidelity">
-                        <!--loading content-->
-                        <!--loading content-->
+                <div class="panel-heading">
+                    AuntieSocial Finds
+                </div>
+                <div class="panel-body" id="account-profile" data-account-name="fidelity investments" data-account-domain="fidelity.com" data-company-name="fidelity">
+                    <!--loading content-->
+                    <!--loading content-->
                 </div>
             </div>
         </div>

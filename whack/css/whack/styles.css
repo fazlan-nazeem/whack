@@ -1105,3 +1105,7 @@ footer .glyph{
 .line-height-45{
     line-height:45px;
 }
+
+.infobox.vcard{
+    width:100%!important;
+}

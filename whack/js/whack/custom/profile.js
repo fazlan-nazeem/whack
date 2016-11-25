@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 var accountName = "";
-$( document ).ready(function() {
+$(document).ready(function () {
     var title = $("#company-name-text").text();
     var companyName = $("#account-profile").data("company-name");
     var accountName = $("#account-profile").data("account-name");
@@ -33,25 +33,64 @@ $( document ).ready(function() {
             redirects: '', // follow title redirects
             titles: title
         },
-        success: function(data) {
+        success: function (data) {
             if (data.query) {
                 var keys = Object.keys(data.query.pages);
                 var content = data.query.pages[keys[0]].revisions[0]['*'];
                 var data = $('.infobox', content).get(0);
                 viewData(content);
             } else {
-                viewData("<h3>AuntieSocial couldn't find information related to '<b>" + title + "</b>' at the moment</h3>");
+                viewData("<div class='alert alert-danger text-center' role='alert'><strong>Oops! </strong>AuntieSocial couldn't find information related to '<b>" + title + "</b>' at the moment...</div>");
             }
         }
     });
 
 });
 
+
 var viewData = function (data) {
     $("#account-profile").html(data);
     $(".references").remove();
     $(".ambox-Cleanup").remove();
 };
+
+var equalheight = function (container) {
+    var currentTallest = 0,
+        currentRowStart = 0,
+        rowDivs = new Array(),
+        $el,
+        topPosition = 0;
+    $(container).each(function () {
+
+        $el = $(this);
+        $($el).height('auto')
+        topPostion = $el.position().top;
+
+        if (currentRowStart != topPostion) {
+            for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
+                rowDivs[currentDiv].height(currentTallest);
+            }
+            rowDivs.length = 0; // empty the array
+            currentRowStart = topPostion;
+            currentTallest = $el.height();
+            rowDivs.push($el);
+        } else {
+            rowDivs.push($el);
+            currentTallest = (currentTallest < $el.height()) ? ($el.height()) : (currentTallest);
+        }
+        for (currentDiv = 0; currentDiv < rowDivs.length; currentDiv++) {
+            rowDivs[currentDiv].height(currentTallest);
+        }
+    });
+};
+
+$(window).load(function () {
+    equalheight('.panel-same-height');
+});
+
+$(window).resize(function () {
+    equalheight('.panel-same-height');
+});
 
 var getNewRawLeadStats = function () {
     $.ajax({
