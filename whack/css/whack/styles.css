@@ -95,7 +95,7 @@ h3, h4 {
 }
 
 .navbar-header .navbar-brand span {
-	color: #30a5ff;
+	color: #1565C0;
 }
 
 /*Buttons*/
@@ -490,6 +490,8 @@ a.bg-danger:hover {
 
 .navbar {
 	border: 0;
+	background:#2196F3;
+	border-bottom:1px solid #64B5F6;
 }
 
 .navbar input {
@@ -661,17 +663,17 @@ h1.page-header {
 .easypiechart {
 	position: relative;
 	text-align: center;
-	width: 120px;
-	height: 120px;
+	width: 60px;
+	height: 60px;
 	margin: 20px auto 10px auto;
 }
 
 .easypiechart .percent {
 	display: block;
 	position: absolute;
-	font-size: 26px;
-	top: 38px;
-	width: 120px;
+	font-size: 16px;
+	top: 20px;
+	width: 60px;
 }
 
 #easypiechart-blue .percent { color: #30a5ff;}
@@ -928,11 +930,28 @@ h1.page-header {
 	height: 65px;
 	overflow: scroll;
 }
-
-
-
-
-
+footer {
+    width: 100%;
+    min-height: 40px;
+    overflow: hidden;
+    color: #cbcbcb;
+    margin-top:20px;
+}
+footer .glyph{
+    height:20px;
+    width:20px;
+    stroke-width: 5px;
+}
+.boxshadow{
+    -webkit-box-shadow: 0px 4px 4px 0px rgba(138,138,138,0.5);
+    -moz-box-shadow: 0px 4px 4px 0px rgba(138,138,138,0.5);
+    box-shadow: 0px 4px 4px 0px rgba(138,138,138,0.5);
+}
+.nav-boxshadow{
+    -webkit-box-shadow: 0px 2px 4px 0px rgba(138,138,138,0.75);
+    -moz-box-shadow: 0px 2px 4px 0px rgba(138,138,138,0.75);
+    box-shadow: 0px 2px 4px 0px rgba(138,138,138,0.75);
+}
 
 
 
