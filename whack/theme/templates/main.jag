@@ -241,13 +241,10 @@ var urlPrefix = config.urlPrefix;
 
         <div class="col-sm-3 col-lg-3">
             <div class="panel panel-default boxshadow">
-                    <div class="panel-heading dark-overlay"><svg class="glyph stroked star"><use xlink:href="#stroked-star"/></svg> Company name</div>
-                    <div class="panel-body">
-                        adasdad
-                    </div>
-                    <div class="panel-footer">
-                        <p>Some info goes here....</p>
-                    </div>
+                    <div class="panel-heading dark-overlay"><svg class="glyph stroked star"><use xlink:href="#stroked-star"/></svg><span id="company-name-text">Fidelity Investments</span></div>
+                    <div class="panel-body" id="account-profile" data-account-name="fidelity investments" data-account-domain="fidelity.com" data-company-name="fidelity">
+                        <!--loading content-->
+                        <!--loading content-->
                 </div>
             </div>
         </div>
