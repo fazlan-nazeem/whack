@@ -55,7 +55,7 @@ var viewData = function (data) {
 };
 
 var equalheight = function (container) {
-    var currentTallest = 0,
+    var currentTallest = 500,
         currentRowStart = 0,
         rowDivs = new Array(),
         $el,
