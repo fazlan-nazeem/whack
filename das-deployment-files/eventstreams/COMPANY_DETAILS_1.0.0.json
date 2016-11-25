@@ -1,0 +1,16 @@
+{
+  "name": "COMPANY_DETAILS",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "AccountName",
+      "type": "STRING"
+    },
+    {
+      "name": "BANTPercentage",
+      "type": "INT"
+    }
+  ]
+}
