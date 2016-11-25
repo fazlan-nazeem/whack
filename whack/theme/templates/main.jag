@@ -3,8 +3,8 @@
 <head>
 
 <%
-    var config = require("/configs/whack.json");
-    var urlPrefix = config.urlPrefix;
+var config = require("/configs/whack.json");
+var urlPrefix = config.urlPrefix;
 %>
 
 
@@ -192,13 +192,10 @@
 
         <div class="col-sm-3 col-lg-3">
             <div class="panel panel-default boxshadow">
-                    <div class="panel-heading dark-overlay"><svg class="glyph stroked star"><use xlink:href="#stroked-star"/></svg> Company name</div>
-                    <div class="panel-body">
-                        adasdad
-                    </div>
-                    <div class="panel-footer">
-                        <p>Some info goes here....</p>
-                    </div>
+                    <div class="panel-heading dark-overlay"><svg class="glyph stroked star"><use xlink:href="#stroked-star"/></svg><span id="company-name-text">Fidelity Investments</span></div>
+                    <div class="panel-body" id="account-profile" data-account-name="fidelity investments" data-account-domain="fidelity.com" data-company-name="fidelity">
+                        <!--loading content-->
+                        <!--loading content-->
                 </div>
             </div>
         </div>
@@ -216,6 +213,7 @@
 	<script src="<%=urlPrefix%>js/whack/easypiechart.js"></script>
 	<script src="<%=urlPrefix%>js/whack/easypiechart-data.js"></script>
 	<script src="<%=urlPrefix%>js/whack/bootstrap-datepicker.js"></script>
+	<script src="<%=urlPrefix%>js/whack/custom/profile.js"></script>
 </body>
 
 </html>

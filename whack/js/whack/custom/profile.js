@@ -13,6 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function () {
+$( document ).ready(function() {
+    var title = $("#company-name-text").text();
+    var companyName = $("#account-profile").data("company-name");
+    var accountName = $("#account-profile").data("account-name");
+    var domain = $("#account-profile").data("account-domain");
 
-})();
+    $.ajax({
+        dataType: 'jsonp', // no CORS
+        url: 'https://en.wikipedia.org/w/api.php',
+        data: {
+            action: 'query',
+            prop: 'revisions',
+            rvprop: 'content',
+            format: 'json',
+            rvsection: '0', // infobox
+            rvparse: '', // convert to HTML
+            redirects: '', // follow title redirects
+            titles: title
+        },
+        success: function(data) {
+            if (data.query) {
+                var keys = Object.keys(data.query.pages);
+                var content = data.query.pages[keys[0]].revisions[0]['*'];
+                var data = $('.infobox', content).get(0);
+                viewData(content);
+            } else {
+                viewData("<h3>AuntieSocial couldn't find information related to '<b>" + title + "</b>' at the moment</h3>");
+            }
+        }
+    });
+
+});
+
+
+
+var viewData = function (data) {
+    $("#account-profile").html(data);
+    $(".references").remove();
+    $(".ambox-Cleanup").remove();
+};
