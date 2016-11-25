@@ -1,0 +1,20 @@
+{
+  "name": "ProductRelatedActivitiesAgainstTimeForAccount",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "AccountName",
+      "type": "STRING"
+    },
+    {
+      "name": "ProductName",
+      "type": "STRING"
+    },
+    {
+      "name": "Timestamp",
+      "type": "STRING"
+    }
+  ]
+}

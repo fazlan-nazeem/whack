@@ -1,0 +1,18 @@
+/* Enter a unique ExecutionPlan */
+@Plan:name('ExecutionPlan')
+
+/* Enter a unique description for ExecutionPlan */
+-- @Plan:description('ExecutionPlan')
+
+/* define streams/tables and write queries here ... */
+
+@Import('ProductRelatedActivitiesAgainstTimeForAccount:1.0.0')
+define stream product_activity_account (AccountName string, ProductName string, Timestamp string);
+
+@Export('Activity_Timestamp_Format:1.0.0')
+define stream product_activity_account_proper_timestamp (AccountName string, ProductName string, Timestamp string);
+
+
+from product_activity_account
+select AccountName, ProductName, time:dateFormat(Timestamp, 'yyyy-MM-dd', 'MM/dd/yy') as Timestamp
+insert into product_activity_account_proper_timestamp;

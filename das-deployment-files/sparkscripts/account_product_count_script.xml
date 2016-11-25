@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied. See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<Analytics>
+  <Name>account_product_count_script</Name>
+  <Script>
+      CREATE TEMPORARY TABLE COM_WHACK_ADALA_NANE_AM_PRODUCT_TIME_TMP USING CarbonAnalytics OPTIONS(tableName "ACTIVITY_TIMESTAMP_FORMAT");
+
+CREATE TEMPORARY TABLE AM_PRODUCT_TIMELINE_INTERMEDIATE USING CarbonAnalytics OPTIONS (tableName "AM_PRODUCT_TIMELINE_INTERMEDIATE", schema "AccountName STRING -i, ProductName STRING -i, Timestamp STRING -i");                            
+
+CREATE TEMPORARY TABLE AM_PRODUCT_TIMELINESummaryData USING CarbonAnalytics OPTIONS (tableName "AM_PRODUCT_TIMELINE_SUMMARY", schema "AccountName STRING -i, ProductName STRING -i, Timestamp STRING -i, count INT ",primaryKeys "AccountName, ProductName, Timestamp");                            
+
+insert into table AM_PRODUCT_TIMELINE_INTERMEDIATE select AccountName, ProductName, CONCAT( DATE_FORMAT(`Timestamp`, 'yyyy-MM' ), case when dayofmonth( `Timestamp` ) < 16 then '-15' else '-30' END) from COM_WHACK_ADALA_NANE_AM_PRODUCT_TIME_TMP;
+
+insert into table AM_PRODUCT_TIMELINESummaryData select AccountName, ProductName, Timestamp, count( ProductName ) as TotalActivity from AM_PRODUCT_TIMELINE_INTERMEDIATE group by AccountName,ProductName, Timestamp;                          
+                                               
+  </Script>
+  <CronExpression>0 0/5 * * * ?</CronExpression>
+</Analytics>                      
+                            
+                            
+                            
+                            
+                            
+                          
+                            
+                            
+                            
+                            
+                            
+                            
