@@ -1,0 +1,177 @@
+/* Enter a unique ExecutionPlan */
+@Plan:name('whackExPlan')
+
+/* This execution plan is to process an RL input stream which would be then used to predict from the model */
+-- @Plan:description('ExecutionPlan')
+
+
+
+@Import('RLStream:1.0.0')
+define stream RawLeadStream (FirstName string, LastName string, Email string, Title string, Company string, Country string, IP string, Activity string, Timestamp string, Region string, Source string, Source_Detail string);
+
+
+@From(eventtable='rdbms', jdbc.url='jdbc:mysql://localhost:3306/whackdb', username='root', password='321', driver.name='com.mysql.jdbc.Driver', table.name='productactivity')
+define table ProductActivityTable (AccountName string, ProductType string, DownloadCount int, WebinarCount int, WhitepaperCount int, CasestudyCount int);
+
+@From(eventtable='rdbms', jdbc.url='jdbc:mysql://localhost:3306/whackdb', username='root', password='321', driver.name='com.mysql.jdbc.Driver', table.name='userengagement')
+define table UserEngagementTable (AccountName string, Email string, FirstName string, LastName string, Title string, ActivityCount int);
+
+/* 1) Creating Email Domain and Account Name */
+
+from RawLeadStream 
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail, regex:group('(@)(.*)(\.)',Email,2)  as EmailDomain
+insert into RLStreamModifiedEmailDomain;
+
+from RLStreamModifiedEmailDomain [EmailDomain != 'yahoo' and EmailDomain != 'gmail' and EmailDomain != 'hotmail']
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, EmailDomain as AccountName
+insert into RLStreamModifiedAccountName;
+
+from RLStreamModifiedEmailDomain [EmailDomain == 'yahoo' or EmailDomain == 'gmail' or EmailDomain == 'hotmail']
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, Company as AccountName
+insert into RLStreamModifiedAccountName;
+
+
+/* ==== */
+
+
+from RLStreamModifiedAccountName join UserEngagementTable
+on (UserEngagementTable.AccountName == AccountName and (UserEngagementTable.Email == Email))
+select UserEngagementTable.AccountName, UserEngagementTable.Email, UserEngagementTable.FirstName, UserEngagementTable.LastName ,UserEngagementTable.Title, (UserEngagementTable.ActivityCount + 1) as ActivityCount
+insert into UserEngagementStream;
+
+from UserEngagementStream
+select AccountName, Email, FirstName, LastName ,Title, ActivityCount
+update UserEngagementTable
+on ((UserEngagementTable.AccountName == AccountName) and (UserEngagementTable.Email == Email));
+
+from  RLStreamModifiedAccountName [not ((UserEngagementTable.AccountName == AccountName in UserEngagementTable ) and (UserEngagementTable.Email == Email in UserEngagementTable))]
+select AccountName, Email , FirstName, LastName, Title ,1 as ActivityCount 
+insert into UserEngagementTable;
+
+
+
+
+/* 2) Get product type from activity */
+
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'esb') or str:contains(str:lower(Activity),'service bus') or str:contains(str:lower(Activity),'soa')]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'ESB' as ProductType	
+insert into dbStream1;
+											   
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'is') or str:contains(str:lower(Activity),'identity server')]
+select FirstName, LastName, Email, Title, Company, Country , IP, 'ESB' as Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'IS' as ProductType	
+insert into dbStream1;											  
+											   
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'api') or str:contains(str:lower(Activity),'api manager') or str:contains(str:lower(Activity),'apim')]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'APIM' as ProductType	
+insert into dbStream1;			   
+					
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'cep') or str:contains(str:lower(Activity),'complex event')]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'CEP' as ProductType	
+insert into dbStream1;										   
+					
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'das') or str:contains(str:lower(Activity),'analytics') or  str:contains(str:lower(Activity),'data analytics')]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'DAS' as ProductType	
+insert into dbStream1;												
+											   
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'greg') or str:contains(str:lower(Activity),'governance') or  str:contains(str:lower(Activity),'registry')]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'GREG' as ProductType	
+insert into dbStream1;	
+
+											   
+from RLStreamModifiedAccountName [str:contains(str:lower(Activity),'ues') or str:contains(str:lower(Activity),'user engagement')]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , 'UES' as ProductType	
+insert into dbStream1;	
+	
+											   
+/* if account name not in ProductActivityTable in db, then insert */											   
+from dbStream1 [not (ProductActivityTable.AccountName == AccountName in ProductActivityTable) and not(ProductActivityTable.ProductType == ProductType in ProductActivityTable )]
+select AccountName, ProductType, 0 as DownloadCount, 0 as WebinarCount , 0 as WhitepaperCount, 0 as CasestudyCount
+insert into ProductActivityTable;
+
+
+/* 3) Activity type cleaning */
+
+from dbStream1 [str:contains(str:lower(Activity),'download')]
+select FirstName, LastName, Email, Title, Company, Country , IP, 'Download' as Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into dbStream2;
+
+from dbStream1 [str:contains(str:lower(Activity),'webinar')]
+select FirstName, LastName, Email, Title, Company, Country , IP, 'Webinar' as Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into dbStream2;
+
+from dbStream1 [str:contains(str:lower(Activity),'whitepaper')]
+select FirstName, LastName, Email, Title, Company, Country , IP, 'Whitepaper' as Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into dbStream2;
+
+from dbStream1 [str:contains(str:lower(Activity),'casestudy')]
+select FirstName, LastName, Email, Title, Company, Country , IP, 'CaseStudy' as Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into dbStream2;
+
+
+/* ===== */
+from dbStream2[Activity == "Download"]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType
+insert into downloadStream;
+
+from dbStream2[Activity == "Webinar"]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into webinarStream;
+
+from dbStream2[Activity == "Whitepaper"]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into whitepaperStream;
+
+from dbStream2[Activity == "CaseStudy"]
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Region, Source, Source_Detail,EmailDomain, AccountName , ProductType	
+insert into casestudyStream;
+
+
+
+
+/* ======== */
+
+from downloadStream join ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType)
+select ProductActivityTable.AccountName , ProductActivityTable.ProductType, (ProductActivityTable.DownloadCount + 1) as DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount 
+insert into downloadStreamModified;
+
+from downloadStreamModified
+select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount 
+update ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType);
+
+/* ========= */
+
+from webinarStream join ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType)
+select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, (ProductActivityTable.WebinarCount + 1) as WebinarCount, WhitepaperCount, CasestudyCount 
+insert into webinarStreamModified;
+
+from webinarStreamModified
+select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount 
+update ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType);
+
+/* ========= */
+
+from whitepaperStream join ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType)
+select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, WebinarCount, (ProductActivityTable.WhitepaperCount + 1) as WhitepaperCount, CasestudyCount 
+insert into whitepaperStreamModified;
+
+from whitepaperStreamModified
+select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount 
+update ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType);
+
+/* ========= */
+
+from casestudyStream join ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType)
+select ProductActivityTable.AccountName , ProductActivityTable.ProductType,  DownloadCount, WebinarCount, WhitepaperCount, (ProductActivityTable.CasestudyCount + 1) as CasestudyCount 
+insert into casestudyStreamModified;
+
+from casestudyStreamModified
+select AccountName , ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount 
+update ProductActivityTable
+on (AccountName == ProductActivityTable.AccountName and ProductType == ProductActivityTable.ProductType);
