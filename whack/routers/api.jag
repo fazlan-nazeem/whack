@@ -1,0 +1,33 @@
+<%
+(function () {
+    var findJag = function (path) {
+        var file = new File(path);
+        if (file.isExists()) {
+            return path;
+        }
+        path = path.replace(/\/[^\/]*$/ig, '');
+        if (!path) {
+            return null;
+        }
+        return findJag(path + '.jag');
+    };
+
+    var api = "";
+    var matcher = new URIMatcher(request.getRequestURI());
+    if (matcher.match('/whack/apis/{page}')) {
+        var vars = matcher.elements();
+        api = vars.page;
+    }
+
+    if (api) {
+        var path = findJag("/controllers/apis/" + api);
+        if (!path) {
+            response.sendError(404, 'requested api cannot be found');
+            return;
+        }
+        include(path);
+    } else {
+        response.sendError(404, 'requested api cannot be found');
+    }
+})();
+%>

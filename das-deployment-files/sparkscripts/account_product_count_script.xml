@@ -20,16 +20,22 @@
 <Analytics>
   <Name>account_product_count_script</Name>
   <Script>
-      CREATE TEMPORARY TABLE COM_WHACK_ADALA_NANE_AM_PRODUCT_TIME_TMP USING CarbonAnalytics OPTIONS(tableName "ACTIVITY_TIMESTAMP_FORMAT");
+    CREATE TEMPORARY TABLE COM_WHACK_ADALA_NANE_AM_PRODUCT_TIME_TMP USING CarbonAnalytics OPTIONS(tableName "ACTIVITY_TIMESTAMP_FORMAT");
 
-CREATE TEMPORARY TABLE AM_PRODUCT_TIMELINE_INTERMEDIATE USING CarbonAnalytics OPTIONS (tableName "AM_PRODUCT_TIMELINE_INTERMEDIATE", schema "AccountName STRING -i, ProductName STRING -i, Timestamp STRING -i");                            
+    CREATE TEMPORARY TABLE COM_WHACK_ADALA_NANE_AM_COMPANY_DETAILS_TMP USING CarbonAnalytics OPTIONS(tableName "COMPANY_DETAILS");
 
-CREATE TEMPORARY TABLE AM_PRODUCT_TIMELINESummaryData USING CarbonAnalytics OPTIONS (tableName "AM_PRODUCT_TIMELINE_SUMMARY", schema "AccountName STRING -i, ProductName STRING -i, Timestamp STRING -i, count INT ",primaryKeys "AccountName, ProductName, Timestamp");                            
+    CREATE TEMPORARY TABLE AM_PRODUCT_TIMELINE_INTERMEDIATE USING CarbonAnalytics OPTIONS (tableName "AM_PRODUCT_TIMELINE_INTERMEDIATE", schema "AccountName STRING -i, ProductName STRING -i, Timestamp STRING -i");
 
-insert into table AM_PRODUCT_TIMELINE_INTERMEDIATE select AccountName, ProductName, CONCAT( DATE_FORMAT(`Timestamp`, 'yyyy-MM' ), case when dayofmonth( `Timestamp` ) < 16 then '-15' else '-30' END) from COM_WHACK_ADALA_NANE_AM_PRODUCT_TIME_TMP;
+    CREATE TEMPORARY TABLE AM_PRODUCT_TIMELINESummaryData USING CarbonAnalytics OPTIONS (tableName "AM_PRODUCT_TIMELINE_SUMMARY", schema "AccountName STRING -i, ProductName STRING -i, Timestamp STRING -i, count INT ",primaryKeys "AccountName, ProductName, Timestamp");
 
-insert into table AM_PRODUCT_TIMELINESummaryData select AccountName, ProductName, Timestamp, count( ProductName ) as TotalActivity from AM_PRODUCT_TIMELINE_INTERMEDIATE group by AccountName,ProductName, Timestamp;                          
-                                               
+    CREATE TEMPORARY TABLE AM_COMAPNY_DETAILS_SUMMARY USING CarbonAnalytics OPTIONS (tableName "AM_COMAPNY_DETAILS_SUMMARY", schema "AccountName STRING -i, BANTPercentage INT -i",primaryKeys "AccountName");
+
+    insert into table AM_PRODUCT_TIMELINE_INTERMEDIATE select AccountName, ProductName, CONCAT( DATE_FORMAT(`Timestamp`, 'yyyy-MM' ), case when dayofmonth( `Timestamp` ) < 16 then '-15' else '-30' END) from COM_WHACK_ADALA_NANE_AM_PRODUCT_TIME_TMP;
+
+    insert into table AM_PRODUCT_TIMELINESummaryData select AccountName, ProductName, Timestamp, count( ProductName ) as TotalActivity from AM_PRODUCT_TIMELINE_INTERMEDIATE group by AccountName,ProductName, Timestamp;
+
+    insert into table AM_COMAPNY_DETAILS_SUMMARY select AccountName, BANTPercentage from COM_WHACK_ADALA_NANE_AM_COMPANY_DETAILS_TMP group by AccountName, BANTPercentage;
+
   </Script>
   <CronExpression>0 0/5 * * * ?</CronExpression>
 </Analytics>                      
