@@ -26,7 +26,6 @@ var urlPrefix = config.urlPrefix;
 <script src="<%=urlPrefix%>js/whack/respond.min.js"></script>
 <![endif]-->
 
-
 </head>
 
 <body>
@@ -276,5 +275,4 @@ var urlPrefix = config.urlPrefix;
 	<script src="<%=urlPrefix%>/js/whack/horizontal-timeline/js/main.js"></script>
 	<script src="<%=urlPrefix%>js/whack/custom/profile.js"></script>
 </body>
-
 </html>
