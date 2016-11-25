@@ -43,7 +43,9 @@
     }).on('typeahead:autocomplete', function (e, role) {
         //addViewers($(this), role.name);
     });
-    $(typeaheadElem).width($(typeaheadElem).parent().parent().width() - 30);
+    var setWidth = $(typeaheadElem).parent().parent().parent().parent().width();
+    console.log();
+    $(typeaheadElem).width(setWidth - 110);
  });
 
 var substringMatcher = function(strs) {
