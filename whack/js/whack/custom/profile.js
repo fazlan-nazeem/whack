@@ -39,7 +39,7 @@ $( document ).ready(function() {
                 var data = $('.infobox', content).get(0);
                 viewData(content);
             } else {
-                viewData("<h3>AuntieSocial couldn't find information related to '<b>" + title + "</b>' at the moment</h3>");
+                viewData("<div class='alert alert-danger text-center' role='alert'><strong>Oops! </strong>AuntieSocial couldn't find information related to '<b>" + title + "</b>' at the moment...</div>");
             }
         }
     });
