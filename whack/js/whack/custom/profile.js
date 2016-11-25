@@ -92,12 +92,33 @@ $(window).resize(function () {
     equalheight('.panel-same-height');
 });
 
+var getTheQuarter = function () {
+    var currentDate = new Date();
+    var currentMonth = currentDate.getMonth();
+    var timeStamp = 0;
+    if (currentMonth >= 0 && currentMonth < 3) {
+        timeStamp = currentDate.setMonth(currentMonth);
+    } else if (currentMonth >= 3 && currentMonth < 6) {
+        timeStamp = currentDate.setMonth(currentMonth - 3);
+    } else if (currentMonth >= 6 && currentMonth < 9) {
+        timeStamp = currentDate.setMonth(currentMonth - 6);
+    } else {
+        timeStamp = currentDate.setMonth(currentMonth - 9);
+    }
+    return timeStamp;
+};
+
 var getNewRawLeadStats = function () {
     $.ajax({
         url: "/whack/apis/new-raw-leads.jag",
         type: "POST",
         dataType: "json",
         contentType: "application/json",
+        data: JSON.stringify({
+            "accountName": accountName,
+            "before": getTheQuarter(),
+            "now": $.now()
+        }),
         success: function (data) {
             $("#txtNRL").text("" + 60);
         },
@@ -113,6 +134,11 @@ var getSQLStats = function () {
         type: "POST",
         dataType: "json",
         contentType: "application/json",
+        data: JSON.stringify({
+            "accountName": accountName,
+            "before": getTheQuarter(),
+            "now": $.now()
+        }),
         success: function (data) {
             $("#txtSQL").text("" + 60);
         },
@@ -128,6 +154,11 @@ var getBantStats = function () {
         type: "POST",
         dataType: "json",
         contentType: "application/json",
+        data: JSON.stringify({
+            "accountName": accountName,
+            "before": getTheQuarter(),
+            "now": $.now()
+        }),
         success: function (data) {
             $("#txtBanted").text("" + 60);
         },
@@ -143,6 +174,11 @@ var getNewUserStats = function () {
         type: "POST",
         dataType: "json",
         contentType: "application/json",
+        data: JSON.stringify({
+            "accountName": accountName,
+            "before": getTheQuarter(),
+            "now": $.now()
+        }),
         success: function (data) {
             $("#txtUsers").text("" + 60);
         },

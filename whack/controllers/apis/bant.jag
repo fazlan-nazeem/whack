@@ -9,9 +9,11 @@
     var requestData = request.getContent();
     var query = '';
 
-    if (requestData) {
-        query = 'AccountName: "' + requestData.accountName + '"';
+    if (requestData.accountName) {
+        query = 'AccountName: "' + requestData.accountName + '" AND ';
     }
+
+    query += 'Date:[ ' + requestData.before + ' TO ' + requestData.now + ']';
 
     var searchQuery = {
         'tableName': 'COMPANY_DETAILS',
