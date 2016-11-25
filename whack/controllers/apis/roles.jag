@@ -33,7 +33,6 @@
 
     var usr = require('/modules/user.js');
     response.contentType = 'application/json';
-	new Log("*****").info(stringify(usr));
     var matcher = new URIMatcher(request.getRequestURI());
     if (matcher.match('/roles/search')) {
         var query = request.getParameter('query');

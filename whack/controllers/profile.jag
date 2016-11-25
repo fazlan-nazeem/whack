@@ -1,9 +1,12 @@
 <%
+var accountName = "";
 (function () {
-    /**
-     * Dashboards flag.
-     * @const
-     */
-    include("/theme/templates/profile.jag");
+    var matcher = new URIMatcher(request.getRequestURI());
+    if (matcher.match('/whack/profile/{accountName}')) {
+        var vars = matcher.elements();
+        accountName = vars.accountName;
+    }
+
+    include("/theme/templates/main.jag");
 }());
 %>

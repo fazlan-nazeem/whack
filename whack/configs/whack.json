@@ -1,3 +1,5 @@
 {
-  "urlPrefix": "https://localhost:9443/whack/"
+  "urlPrefix": "https://localhost:9443/whack/",
+  "dasUrlPrefix": "https://172.17.0.1:9445/",
+  "authorization": "Basic YWRtaW46YWRtaW4="
 }

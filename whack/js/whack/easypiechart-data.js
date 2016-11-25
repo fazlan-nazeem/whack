@@ -44,6 +44,18 @@ $(function() {
       barColor: '#1ebfae',
       lineWidth:   4
   });
+    $('#easypiechart-3').easyPieChart({
+        size:60,
+        scaleColor: false,
+        barColor: '#ffb53e',
+        lineWidth:   4
+    });
+    $('#easypiechart-4').easyPieChart({
+      size:60,
+      scaleColor: false,
+      barColor: '#f9243f',
+      lineWidth:   4
+    });
 });
 
 function randomIntFromInterval(min,max)

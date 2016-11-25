@@ -672,7 +672,7 @@ h1.page-header {
 	text-align: center;
 	width: 60px;
 	height: 60px;
-	margin: 20px auto 10px auto;
+	margin: 10px auto;
 }
 
 .easypiechart .percent {
@@ -980,10 +980,24 @@ footer .glyph{
 .add-margin-top-5x{
     margin-top:50px;
 }
+.add-margin-top-2x{
+    margin-top:20px;
+}
 .add-margin-bottom-5x{
     margin-bottom:50px;
 }
-
+.add-padding-left-1x{
+    padding-left:10px;
+}
+.add-padding-right-1x{
+    padding-right:10px;
+}
+.add-padding-left-2x{
+    padding-left:20px;
+}
+.add-padding-right-2x{
+    padding-right:20px;
+}
 
 /************* typeahead **************/
 
@@ -1066,9 +1080,6 @@ footer .glyph{
   margin: 0;
 }
 
-
-
-
 .btn-go{
     font-size: 2em;
     line-height: 2em;
@@ -1081,4 +1092,16 @@ footer .glyph{
 .cust-name{
     color:#2196F3;
     font-weight:400;
+}
+.t-left{
+    text-align:left;
+}
+.description-cell{
+    width:60%;
+}
+.quarter-text{
+    font-weight:100;
+}
+.line-height-45{
+    line-height:45px;
 }
