@@ -67,7 +67,7 @@ var urlPrefix = config.urlPrefix;
             <div class="row">
                 <div class="col-xs-12 col-md-12 col-lg-12">
                    <div class="panel panel-default boxshadow">
-                       <div class="panel-heading">Funnel</div>
+                       <div class="panel-heading">BANT Timeline</div>
                        <div class="panel-body">
                             <section class="cd-horizontal-timeline">
                                 <div class="timeline">
@@ -97,7 +97,7 @@ var urlPrefix = config.urlPrefix;
             <div class="row">
                 <div class="col-xs-12 col-md-12 col-lg-12">
                     <div class="panel panel-default boxshadow">
-                        <div class="panel-heading">BANT Qualification Prediction</div>
+                        <div class="panel-heading">Product Specific Activity</div>
                         <div class="panel-body">
                             <div class="canvas-wrapper">
                                 <canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
@@ -110,7 +110,7 @@ var urlPrefix = config.urlPrefix;
             <div class="row">
                 <div class="col-sm-7 col-lg-7">
                     <div class="panel panel-default boxshadow panel-same-height">
-                        <div class="panel-heading">Doughnut Chart</div>
+                        <div class="panel-heading">Product Summery</div>
                         <div class="panel-body">
                             <div class="canvas-wrapper">
                                 <canvas class="chart" id="doughnut-chart" ></canvas>
@@ -120,7 +120,7 @@ var urlPrefix = config.urlPrefix;
                 </div>
                 <div class="col-sm-5 col-lg-5">
                     <div class="panel panel-default boxshadow panel-same-height">
-                        <div class="panel-heading">Leads by Character</div>
+                        <div class="panel-heading">Raw Lead Categories</div>
                         <div class="panel-body easypiechart-panel">
                             <div class="row no-padding add-padding-left-2x add-padding-right-2x">
                                 <table class="col-sm-12">
@@ -157,7 +157,7 @@ var urlPrefix = config.urlPrefix;
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">120</div>
-                                <div class="text-muted">New Orders</div>
+                                <div class="text-muted">Downloads</div>
                             </div>
                         </div>
                     </div>
@@ -170,7 +170,7 @@ var urlPrefix = config.urlPrefix;
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">52</div>
-                                <div class="text-muted">Comments</div>
+                                <div class="text-muted">Webinars</div>
                             </div>
                         </div>
                     </div>
@@ -183,7 +183,7 @@ var urlPrefix = config.urlPrefix;
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">24</div>
-                                <div class="text-muted">New Users</div>
+                                <div class="text-muted">Case studies</div>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@ var urlPrefix = config.urlPrefix;
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">25.2k</div>
-                                <div class="text-muted">Page Views</div>
+                                <div class="text-muted">White papers</div>
                             </div>
                         </div>
                     </div>
@@ -209,7 +209,7 @@ var urlPrefix = config.urlPrefix;
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">25.2k</div>
-                                <div class="text-muted">Page Views</div>
+                                <div class="text-muted">Workshops</div>
                             </div>
                         </div>
                     </div>
@@ -222,7 +222,7 @@ var urlPrefix = config.urlPrefix;
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">25.2k</div>
-                                <div class="text-muted">Page Views</div>
+                                <div class="text-muted">Cons</div>
                             </div>
                         </div>
                     </div>
