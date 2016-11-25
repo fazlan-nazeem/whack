@@ -3,8 +3,8 @@
 <head>
 
 <%
-    var config = require("/configs/whack.json");
-    var urlPrefix = config.urlPrefix;
+var config = require("/configs/whack.json");
+var urlPrefix = config.urlPrefix;
 %>
 
 
@@ -250,6 +250,7 @@
 	<script src="<%=urlPrefix%>js/whack/easypiechart.js"></script>
 	<script src="<%=urlPrefix%>js/whack/easypiechart-data.js"></script>
 	<script src="<%=urlPrefix%>js/whack/bootstrap-datepicker.js"></script>
+	<script src="<%=urlPrefix%>js/whack/custom/profile.js"></script>
 </body>
 
 </html>
