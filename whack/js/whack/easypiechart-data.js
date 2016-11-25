@@ -27,6 +27,11 @@ $(function() {
         //$(elem).children('span').text(~~value);
        }
    });
+   $('#easypiechart-1,#easypiechart-2').easyPieChart({
+       size:60,
+       scaleColor: false,
+       barColor: '#f9243f'
+   });
 });
 
 function randomIntFromInterval(min,max)
