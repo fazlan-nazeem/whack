@@ -48,7 +48,7 @@
                                 <span class="fw-stack">
                                     <i class="fw fw-circle-outline fw-stack-2x"></i>
                                     <i class="fw fw-add fw-stack-1x"></i>
-                                </span>create.dashboard
+                                </span><%=accountName%>
                             </a>
                         </li>
                         </ul>
