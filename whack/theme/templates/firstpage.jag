@@ -65,7 +65,7 @@
 
             <div class="row">
                 <div class="col-xs-12 col-md-6 col-lg-3">
-                    <div class="panel panel-blue panel-widget boxshadow">
+                    <div class="panel panel-midnight-blue panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-3 col-lg-5 widget-left">
                                 <svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
@@ -121,20 +121,21 @@
         </div>	<!--/.main-->
 
         <div class="row">
-            <div class="col-sm-offset-2 col-sm-8 col-lg-offset-2 col-lg-8 main add-margin-top-5x">
-                <div class="row no-padding">
-                    <div class="col-sm-9 col-lg-9">
-                        <div id="scrollable-dropdown-menu">
-                            <input class="typeahead" type="text" placeholder="Start by searching or typing a customer name..."/>
-                        </div>
+            <div class="col-sm-offset-2 col-sm-8 col-lg-offset-2 col-lg-8 main add-margin-top-5x search-container">
+                <form class="form-inline col-sm-12">
+                  <div class="form-group">
+                    <div id="scrollable-dropdown-menu">
+                        <input class="typeahead" type="text" placeholder="Start by searching or typing a customer name..."/>
                     </div>
-                    <div class="col-sm-3 col-lg-3">
-                        <button type="button" class="btn btn-primary btn-lg">
-                            <span class="hidden-xs">Submit Button</span>
-                            <span class="visible-xs-block"><svg class="glyph stroked eye"><use xlink:href="#stroked-eye"/></svg></span>
-                        </button>
-                    </div>
-                </div>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-lg btn-go">
+                      <span class="hidden-xs">Go</span>
+                      <span class="visible-xs-block"><svg class="glyph stroked eye"><use xlink:href="#stroked-eye"/></svg></span>
+                  </button>
+                </form>
+
+
+
             </div>
         </div>
 
