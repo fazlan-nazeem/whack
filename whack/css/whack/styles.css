@@ -93,15 +93,15 @@ h3, h4 {
 }
 
 .navbar-header .navbar-brand {
-	color: #fff;
+	color: #bdc3c7;
 	font-size: 16px;
 	text-transform: none;
-	font-weight: 500;
+	font-weight: 300;
 	letter-spacing: 2px;
 }
 
 .navbar-header .navbar-brand span {
-	color: #1565C0;
+	color: #fff;
 }
 
 /*Buttons*/
@@ -688,6 +688,11 @@ h1.page-header {
 #easypiechart-orange .percent { color: #ffb53e;}
 #easypiechart-red .percent { color: #ef4040;}
 
+#easypiechart-1 .percent { color: #30a5ff;}
+#easypiechart-2 .percent { color: #1ebfae;}
+#easypiechart-3 .percent { color: #ffb53e;}
+#easypiechart-4 .percent { color: #ef4040;}
+
 /*Calendar Widget*/
 
 #calendar, .datepicker-inline {
@@ -1072,4 +1077,8 @@ footer .glyph{
     height:20px;
     width:20px;
     stroke-width: 5px;
+}
+.cust-name{
+    color:#2196F3;
+    font-weight:400;
 }

@@ -1,21 +1,5 @@
 $(function() {
-    $('#easypiechart-teal').easyPieChart({
-        size:60,
-        animate: 1000,
-        scaleColor: false,
-        barColor: '#1ebfae'
-    });
-    $('#easypiechart-orange').easyPieChart({
-        size:60,
-        scaleColor: false,
-        barColor: '#ffb53e'
-    });
-    $('#easypiechart-red').easyPieChart({
-        size:60,
-        scaleColor: false,
-        barColor: '#f9243f'
-    });
-   $('#easypiechart-blue').easyPieChart({
+    $('#easypiechart-blue').easyPieChart({
        size:60,
        scaleColor: false,
        barColor: '#30a5ff',
@@ -26,12 +10,40 @@ $(function() {
         //var elem = this;
         //$(elem).children('span').text(~~value);
        }
-   });
-   $('#easypiechart-1,#easypiechart-2').easyPieChart({
+    });
+    $('#easypiechart-teal').easyPieChart({
+        size:60,
+        animate: 1000,
+        scaleColor: false,
+        barColor: '#1ebfae',
+        lineWidth:   4
+
+    });
+    $('#easypiechart-orange').easyPieChart({
+        size:60,
+        scaleColor: false,
+        barColor: '#ffb53e',
+        lineWidth:   4
+    });
+    $('#easypiechart-red').easyPieChart({
+        size:60,
+        scaleColor: false,
+        barColor: '#f9243f',
+        lineWidth:   4
+    });
+
+   $('#easypiechart-1').easyPieChart({
        size:60,
        scaleColor: false,
-       barColor: '#f9243f'
+       barColor: '#30a5ff',
+       lineWidth:   4
    });
+   $('#easypiechart-2').easyPieChart({
+      size:60,
+      scaleColor: false,
+      barColor: '#1ebfae',
+      lineWidth:   4
+  });
 });
 
 function randomIntFromInterval(min,max)

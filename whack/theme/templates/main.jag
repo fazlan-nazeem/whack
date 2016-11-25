@@ -32,10 +32,6 @@
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="#"><span>Auntie</span>Social</a>
 				<ul class="user-menu">
@@ -69,7 +65,7 @@
 
             <div class="row">
                 <div class="col-xs-12 col-md-6 col-lg-3">
-                    <div class="panel panel-blue panel-widget boxshadow">
+                    <div class="panel panel-midnight-blue panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-3 col-lg-5 widget-left">
                                 <svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
@@ -136,7 +132,17 @@
             </div><!--/.row-->
 
             <div class="row">
-                <div class="col-sm-6 col-lg-6">
+                <div class="col-sm-4 col-lg-4">
+                    <div class="panel panel-default boxshadow">
+                        <div class="panel-heading">Doughnut Chart</div>
+                        <div class="panel-body">
+                            <div class="canvas-wrapper">
+                                <canvas class="chart" id="doughnut-chart" ></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-4">
                     <div class="panel panel-default boxshadow">
                         <div class="panel-heading">Leads by Character</div>
                         <div class="panel-body easypiechart-panel">
@@ -159,31 +165,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-6">
+                <div class="col-sm-4 col-lg-4">
                     <div class="panel panel-default boxshadow">
                         <div class="panel-heading">Resource distribution</div>
                         <div class="panel-body easypiechart-panel">
                             <div class="row no-padding">
-                                <div class="col-sm-6 col-lg-6 ">
-                                    APIM
-                                </div>
-                                <div class="col-sm-2 col-lg-2 ">
-                                    <div class="easypiechart" id="easypiechart-1" data-percent="40" ><span class="percent">40%</span></div>
-                                </div>
-                                <div class="col-sm-2 col-lg-2 ">
-                                    <button type="button" class="btn btn-default">View</button>
-                                </div>
-                            </div>
-                            <div class="row no-padding">
-                                <div class="col-sm-6 col-lg-6 ">
-                                    IS
-                                </div>
-                                <div class="col-sm-2 col-lg-2 ">
-                                    <div class="easypiechart" id="easypiechart-2" data-percent="20" ><span class="percent">20%</span></div>
-                                </div>
-                                <div class="col-sm-2 col-lg-2 ">
-                                    <button type="button" class="btn btn-default">View</button>
-                                </div>
+                                <table class="col-sm-12">
+                                    <tr>
+                                        <td>APIM</td>
+                                        <td><div class="easypiechart" id="easypiechart-1" data-percent="40" ><span class="percent">40%</span></div></td>
+                                        <td><button type="button" class="btn btn-primary">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IS</td>
+                                        <td><div class="easypiechart" id="easypiechart-2" data-percent="20" ><span class="percent">20%</span></div></td>
+                                        <td><button type="button" class="btn btn-primary">View</button></td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
