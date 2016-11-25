@@ -115,7 +115,16 @@ window.onload = function(){
 //		responsive : true
 //	});
 	var chart3 = document.getElementById("doughnut-chart").getContext("2d");
-	window.myDoughnut = new Chart(chart3).Doughnut(doughnutData, {responsive : true
+	window.myDoughnut = new Chart(chart3).Doughnut(doughnutData, {
+	    responsive : true,
+	    options: {
+                legend: {
+                    display: true,
+                    labels: {
+                        fontColor: 'rgb(255, 99, 132)'
+                    }
+                }
+        }
 	});
 //	var chart4 = document.getElementById("pie-chart").getContext("2d");
 //	window.myPie = new Chart(chart4).Pie(pieData, {responsive : true
