@@ -1,0 +1,30 @@
+<%
+(function () {
+    var log = new Log("BANT Stats");
+    var config = require("/configs/whack.json");
+    var urlPrefix = config.dasUrlPrefix;
+    var authorization = config.authorization;
+    var url = urlPrefix + "/analytics/search";
+    var countUrl = urlPrefix + "/analytics/search_count";
+    var requestData = request.getContent();
+    var query = '';
+
+    if (requestData) {
+        query = 'AccountName: "' + requestData.accountName + '"';
+    }
+
+    var searchQuery = {
+        'tableName': 'COMPANY_DETAILS',
+        'query': query
+    };
+
+    var searchResult = post(url, stringify(searchQuery), {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": authorization
+    }, 'json');
+
+    log.info(stringify(searchResult));
+    print(stringify(searchResult.data));
+})();
+%>

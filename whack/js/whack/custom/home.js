@@ -14,23 +14,12 @@
  * limitations under the License.
  */
 var sortedCompanyList = [];
-var companyList = [];
-
+var selectedText = "";
+var url;
 $(document).ready(function () {
-
+    url = $("#url").val();
     //viewerRoles.initialize();
     getCompanyList();
-
-    var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-        'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-        'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-        'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-        'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-        'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-        'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-    ];
 
     var typeaheadElem = $('#scrollable-dropdown-menu .typeahead').typeahead({
         hint: true,
@@ -41,29 +30,29 @@ $(document).ready(function () {
         limit: 10,
         source: substringMatcher(sortedCompanyList)
     }).on('typeahead:selected', function (e, company, companies) {
-        //addViewers($(this), role.name);
+        selectedText = company;
     }).on('typeahead:autocomplete', function (e, company) {
-        //addViewers($(this), role.name);
     });
+
     var setWidth = $(typeaheadElem).parent().parent().parent().parent().width();
-    console.log();
     $(typeaheadElem).width(setWidth - 110);
+
+    $(".btn-go").on("click", function (e) {
+        var text = selectedText ? selectedText : $("#scrollable-dropdown-menu").find("pre").text();
+        window.location = url + "profile/" + text;
+    });
 });
 
 var substringMatcher = function (strs) {
     return function findMatches(q, cb) {
         var matches, substringRegex;
-
         matches = [];
-
         substrRegex = new RegExp(q, 'i');
-
         $.each(strs, function (i, str) {
             if (substrRegex.test(str)) {
                 matches.push(str);
             }
         });
-
         cb(matches);
     };
 };
@@ -80,13 +69,19 @@ var getCompanyList = function () {
             "length": 1000000
         }),
         success: function (data) {
-            debugger;
             for (var i in data) {
                 sortedCompanyList.push(data[i].values.AccountName);
             }
         },
         error: function (error) {
+            console.log(error.message);
         }
     });
 };
+
+var getBantStats = function () {
+
+};
+
+var get
 

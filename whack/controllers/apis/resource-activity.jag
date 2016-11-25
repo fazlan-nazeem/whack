@@ -1,0 +1,27 @@
+<%
+(function () {
+    var log = new Log("Product-Activities");
+    var config = require("/configs/whack.json");
+    var urlPrefix = config.dasUrlPrefix;
+    var authorization = config.authorization;
+    var url = urlPrefix + "/analytics/search";
+    var countUrl = urlPrefix + "/analytics/search_count";
+    var requestData = request.getContent();
+    var accountName = requestData.accountName;
+    var query = 'AccountName: "' + accountName + '"';
+    var searchQuery = {
+        'tableName': 'AM_PRODUCT_TIMELINE_SUMMARY',
+        'query': query,
+        'start': requestData.start,
+        'count': requestData.length
+    };
+
+    var searchResult = post(url, stringify(searchQuery), {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": authorization
+    }, 'json');
+
+    print(stringify(searchResult.data));
+})();
+%>
