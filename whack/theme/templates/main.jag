@@ -238,6 +238,9 @@ var urlPrefix = config.urlPrefix;
                 </div>
                 <div class="panel-body" id="account-profile" data-account-name="fidelity investments" data-account-domain="fidelity.com" data-company-name="fidelity">
                     <!--loading content-->
+                    <div class="cssload-container">
+                        <div class="cssload-whirlpool"></div>
+                    </div>
                     <!--loading content-->
                 </div>
             </div>
