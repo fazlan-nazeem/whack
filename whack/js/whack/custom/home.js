@@ -18,7 +18,11 @@ var selectedText = "";
 var url;
 $(document).ready(function () {
     url = $("#url").val();
-    //viewerRoles.initialize();
+
+    //getNewRawLeadStats();
+    //getSQLStats();
+    //getBantStats();
+    //getNewUserStats();
     getCompanyList();
 
     var typeaheadElem = $('#scrollable-dropdown-menu .typeahead').typeahead({
@@ -79,9 +83,94 @@ var getCompanyList = function () {
     });
 };
 
-var getBantStats = function () {
-
+var getTheQuarter = function () {
+    var currentDate = new Date();
+    var currentMonth = currentDate.getMonth();
+    var timeStamp = 0;
+    if (currentMonth >= 0 && currentMonth < 3) {
+        timeStamp = currentDate.setMonth(currentMonth);
+    } else if (currentMonth >= 3 && currentMonth < 6) {
+        timeStamp = currentDate.setMonth(currentMonth - 3);
+    } else if (currentMonth >= 6 && currentMonth < 9) {
+        timeStamp = currentDate.setMonth(currentMonth - 6);
+    } else {
+        timeStamp = currentDate.setMonth(currentMonth - 9);
+    }
+    return timeStamp;
 };
 
-var get
+var getNewRawLeadStats = function () {
+    $.ajax({
+        url: "/whack/apis/new-raw-leads.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "before": getTheQuarter(),
+            "now": $.now()
+        }),
+        success: function (data) {
+            $("#txtNRL").text("" + 60);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
 
+var getSQLStats = function () {
+    $.ajax({
+        url: "/whack/apis/sql.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "before": getTheQuarter(),
+            "now": $.now()
+        }),
+        success: function (data) {
+            $("#txtSQL").text("" + 60);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getBantStats = function () {
+    $.ajax({
+        url: "/whack/apis/bant.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "before": getTheQuarter(),
+            "now": $.now()
+        }),
+        success: function (data) {
+            $("#txtBanted").text("" + 60);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getNewUserStats = function () {
+    $.ajax({
+        url: "/whack/apis/user-activity.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "before": getTheQuarter(),
+            "now": $.now()
+        }),
+        success: function (data) {
+            $("#txtUsers").text("" + 60);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};

@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><streamConfiguration type="csv"><file>rawlead.csv</file><streamID>RLStream:1.0.0</streamID><separateChar>,</separateChar><delayBetweenEventsInMilies>500</delayBetweenEventsInMilies></streamConfiguration>

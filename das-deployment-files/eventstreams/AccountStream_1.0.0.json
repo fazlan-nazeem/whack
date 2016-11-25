@@ -1,0 +1,32 @@
+{
+  "name": "AccountStream",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "AccountName",
+      "type": "STRING"
+    },
+    {
+      "name": "Company",
+      "type": "STRING"
+    },
+    {
+      "name": "EmailDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "RL",
+      "type": "INT"
+    },
+    {
+      "name": "sql",
+      "type": "INT"
+    },
+    {
+      "name": "bant",
+      "type": "INT"
+    }
+  ]
+}
