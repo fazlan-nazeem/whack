@@ -40,7 +40,7 @@ $(document).ready(function () {
                 var data = $('.infobox', content).get(0);
                 viewData(content);
             } else {
-                //viewData("<div class='alert alert-danger text-center' role='alert'><strong>Oops! </strong>AuntieSocial couldn't find information related to '<b>" + title + "</b>' at the moment...</div>");
+                viewData("<div class='alert alert-danger text-center' role='alert'><strong>Oops! </strong>AuntieSocial couldn't find information related to '<b>" + title + "</b>' at the moment...</div>");
             }
         }
     });
