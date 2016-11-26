@@ -19,9 +19,9 @@ var url;
 $(document).ready(function () {
     url = $("#url").val();
 
-    //getNewRawLeadStats();
-    //getSQLStats();
-    //getBantStats();
+    getNewRawLeadStats();
+    getSQLStats();
+    getBantStats();
     //getNewUserStats();
     getCompanyList();
 
@@ -110,7 +110,7 @@ var getNewRawLeadStats = function () {
             "now": $.now()
         }),
         success: function (data) {
-            $("#txtNRL").text("" + 60);
+            $("#txtNRL").text(data);
         },
         error: function (error) {
             console.log(error.message);
@@ -129,7 +129,7 @@ var getSQLStats = function () {
             "now": $.now()
         }),
         success: function (data) {
-            $("#txtSQL").text("" + 60);
+            $("#txtSQL").text(data);
         },
         error: function (error) {
             console.log(error.message);
@@ -148,7 +148,7 @@ var getBantStats = function () {
             "now": $.now()
         }),
         success: function (data) {
-            $("#txtBanted").text("" + 60);
+            $("#txtBanted").text("" + data);
         },
         error: function (error) {
             console.log(error.message);

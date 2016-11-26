@@ -16,9 +16,11 @@
 var accountName = "";
 $(document).ready(function () {
     var title = $("#company-name-text").text();
-    var companyName = $("#account-profile").data("company-name");
-    var accountName = $("#account-profile").data("account-name");
-    var domain = $("#account-profile").data("account-domain");
+    accountName = $("#accountName").val();
+
+    //var companyName = $("#account-profile").data("company-name");
+    //var accountName = $("#account-profile").data("account-name");
+    //var domain = $("#account-profile").data("account-domain");
 
     $.ajax({
         dataType: 'jsonp', // no CORS
@@ -45,8 +47,100 @@ $(document).ready(function () {
         }
     });
 
+    getProductSpecificActivity();
 });
 
+var checkDataExistance = function (data, array) {
+
+    for (var i = 0; i < array.length; i++) {
+        if (data == array[i]) {
+            return true;
+            break;
+        }
+    }
+
+    return false;
+};
+
+var getdataforproduct = function (productName, productArray, product) {
+    for (var i = 0; i < productArray.length; i++) {
+        if (productName == productArray[i].values.ProductName) {
+            product.data.push(productArray[i].values.count);
+        }
+    }
+};
+
+var randomColorGen = function () {
+    return Math.floor(Math.random() * 256)
+};
+
+var prepareProductSpecificDataSet = function (data) {
+    debugger;
+    var timeLines = [];
+    var products = [];
+    var datasets = [];
+    for (var i = 0; i < data.length; i++) {
+        if (!checkDataExistance(data[i].values.Timestamp, timeLines)) {
+            timeLines.push(data[i].values.Timestamp);
+        }
+    }
+
+    timeLines.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(a) - new Date(b);
+    });
+
+    for (var i = 0; i < data.length; i++) {
+        if (!checkDataExistance(data[i].values.ProductName, products)) {
+            products.push(data[i].values.ProductName);
+            var r = randomColorGen();
+            var g = randomColorGen();
+            var b = randomColorGen();
+            var product = {
+                label: data[i].values.ProductName,
+                fillColor: "rgba(" + r + "," + g + "," + b + ",0.2)",
+                strokeColor: "rgba(" + r + "," + g + "," + b + ",1)",
+                pointColor: "rgba(" + r + "," + g + "," + b + ",1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(" + r + "," + g + "," + b + ",1)",
+                data: []
+            };
+
+            for (var j = 0; j < timeLines.length; j++) {
+                product.data.push(0);
+            }
+
+            product.data[timeLines.indexOf(data[i].values.Timestamp)] = data[i].values.count;
+            datasets.push(product);
+        } else {
+            for (var j = 0; j < datasets.length; j++) {
+                if (datasets[j].label == data[i].values.ProductName) {
+                    datasets[j].data[timeLines.indexOf(data[i].values.Timestamp)] = data[i].values.count;
+                    break;
+                }
+            }
+        }
+    }
+
+    var lineChartData = {
+        labels: timeLines,
+        datasets: datasets
+    };
+
+    var chart1 = document.getElementById("line-chart").getContext("2d");
+    if (datasets.length == 1 && datasets[0].data.length == 1) {
+        $("#line").empty();
+        $("#js-legend").empty();
+        $("#line").append("<p>Not Enough Historical Data Available</p>")
+    } else {
+        window.myLine = new Chart(chart1).Line(lineChartData, {
+            responsive: true
+        });
+        document.getElementById('js-legend').innerHTML = window.myLine.generateLegend();
+    }
+};
 
 var viewData = function (data) {
     $("#account-profile").html(data);
@@ -91,6 +185,27 @@ $(window).load(function () {
 $(window).resize(function () {
     equalheight('.panel-same-height');
 });
+
+var getProductSpecificActivity = function () {
+    debugger;
+    $.ajax({
+        url: "/whack/apis/product-activities.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "accountName": accountName,
+            "start": 0,
+            "length": 1000000
+        }),
+        success: function (data) {
+            prepareProductSpecificDataSet(data);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
 
 var getTheQuarter = function () {
     var currentDate = new Date();

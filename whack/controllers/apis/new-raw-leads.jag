@@ -1,6 +1,6 @@
 <%
 (function () {
-    var log = new Log("BANT Stats");
+    var log = new Log("New Lead Stats");
     var config = require("/configs/whack.json");
     var urlPrefix = config.dasUrlPrefix;
     var authorization = config.authorization;
@@ -13,14 +13,14 @@
         query = 'AccountName: "' + requestData.accountName + '" AND ';
     }
 
-    query += 'Date:[ ' + requestData.before + ' TO ' + requestData.now + ']';
+    //query += 'Date:[ ' + requestData.before + ' TO ' + requestData.now + ']';
 
     var searchQuery = {
-        'tableName': 'NEWRAWLEAD',
+        'tableName': 'AM_NEWRAWLEAD_SUMMARY',
         'query': query
     };
 
-    var searchResult = post(url, stringify(searchQuery), {
+    var searchResult = post(countUrl, stringify(searchQuery), {
         "Content-Type": "application/json",
         "Accept": "application/json",
         "Authorization": authorization
