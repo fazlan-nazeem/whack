@@ -70,7 +70,7 @@ var dssPrefix = config.dssUrlPrefix;
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-9 col-lg-9 main">
+        <div class="col-sm-12 col-lg-9 main">
 
             <div class="row">
                 <div class="col-xs-12 col-md-8 col-lg-8">
@@ -81,11 +81,8 @@ var dssPrefix = config.dssUrlPrefix;
                                 <div class="timeline">
                                     <div class="events-wrapper">
                                         <div class="events">
-                                            <ol>
-                                                <li><a href="#0" data-date="16/01/2014" class="selected">16 Jan</a></li>
-                                                <li><a href="#0" data-date="16/02/2014">28 Feb</a></li>
-                                                <li><a href="#0" data-date="16/03/2014">20 Mar</a></li>
-                                                <li><a href="#0" data-date="16/04/2014">20 May</a></li>
+                                            <ol id="bantTimeLine">
+
                                             </ol>
                                             <span class="filling-line" aria-hidden="true"></span>
                                         </div> <!-- .events -->
@@ -124,7 +121,7 @@ var dssPrefix = config.dssUrlPrefix;
             </div><!--/.row-->
 
             <div class="row">
-                <div class="col-sm-7 col-lg-7">
+                <div class="col-sm-12 col-lg-7">
                     <div class="panel panel-default boxshadow panel-same-height">
                         <div class="panel-heading">Product Summery</div>
                         <div class="panel-body">
@@ -135,11 +132,12 @@ var dssPrefix = config.dssUrlPrefix;
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5 col-lg-5">
+                <div class="col-sm-12 col-lg-5">
                     <div class="panel panel-default boxshadow panel-same-height">
                         <div class="panel-heading">Top Interested Parties</div>
                         <div class="panel-body easypiechart-panel">
                             <div id="custotable" class="row no-padding add-padding-left-2x add-padding-right-2x">
+                            <div class="table-responsive">
                                 <table class="table table-interest">
                                     <thead>
                                         <tr>
@@ -153,6 +151,7 @@ var dssPrefix = config.dssUrlPrefix;
 
                                     </tbody>
                                 </table>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -243,7 +242,7 @@ var dssPrefix = config.dssUrlPrefix;
 
         </div>	<!--/.main-->
 
-        <div class="col-sm-3 col-lg-3">
+        <div class="col-sm-12 col-lg-3">
             <div class="panel panel-default boxshadow">
                 <div class="panel-heading">
                     AuntieSocial Finds
