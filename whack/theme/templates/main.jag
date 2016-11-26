@@ -119,9 +119,10 @@ var urlPrefix = config.urlPrefix;
                     <div class="panel panel-default boxshadow panel-same-height">
                         <div class="panel-heading">Product Summery</div>
                         <div class="panel-body">
-                            <div class="canvas-wrapper">
+                            <div id="pie" class="canvas-wrapper">
                                 <canvas class="chart" id="doughnut-chart" ></canvas>
                             </div>
+                            <div id="js-pie-legend" class="chart-legend"></div>
                         </div>
                     </div>
                 </div>
