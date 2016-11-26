@@ -62,20 +62,11 @@ var checkDataExistance = function (data, array) {
     return false;
 };
 
-var getdataforproduct = function (productName, productArray, product) {
-    for (var i = 0; i < productArray.length; i++) {
-        if (productName == productArray[i].values.ProductName) {
-            product.data.push(productArray[i].values.count);
-        }
-    }
-};
-
 var randomColorGen = function () {
     return Math.floor(Math.random() * 256)
 };
 
 var prepareProductSpecificDataSet = function (data) {
-    debugger;
     var timeLines = [];
     var products = [];
     var datasets = [];
@@ -200,11 +191,84 @@ var getProductSpecificActivity = function () {
         }),
         success: function (data) {
             prepareProductSpecificDataSet(data);
+            preparePieChart(data);
         },
         error: function (error) {
             console.log(error.message);
         }
     });
+};
+
+var preparePieChart = function (data) {
+    var products = [];
+    var datasets = [];
+
+    var doughnutData = [
+        {
+            value: 300,
+            color: "#30a5ff",
+            highlight: "#62b9fb",
+            label: "Blue"
+        },
+        {
+            value: 50,
+            color: "#ffb53e",
+            highlight: "#fac878",
+            label: "Orange"
+        },
+        {
+            value: 100,
+            color: "#1ebfae",
+            highlight: "#3cdfce",
+            label: "Teal"
+        },
+        {
+            value: 120,
+            color: "#f9243f",
+            highlight: "#f6495f",
+            label: "Red"
+        }
+
+    ];
+
+    for (var i = 0; i < data.length; i++) {
+        if (!checkDataExistance(data[i].values.ProductName, products)) {
+            products.push(data[i].values.ProductName);
+            var r = randomColorGen();
+            var g = randomColorGen();
+            var b = randomColorGen();
+
+            var product = {
+                value: data[i].values.count,
+                color: "rgba(" + r + "," + g + "," + b + ",0.2)",
+                highlight: "#62b9fb",
+                label: data[i].values.ProductName
+            };
+
+            datasets.push(product);
+        } else {
+            for (var j = 0; j < datasets.length; j++) {
+                if (datasets[j].label == data[i].values.ProductName) {
+                    datasets[j].value += data[i].values.count;
+                    break;
+                }
+            }
+        }
+    }
+
+    var chart3 = document.getElementById("doughnut-chart").getContext("2d");
+    window.myDoughnut = new Chart(chart3).Doughnut(datasets, {
+        responsive: true,
+        options: {
+            legend: {
+                display: true,
+                labels: {
+                    fontColor: 'rgb(255, 99, 132)'
+                }
+            }
+        }
+    });
+    document.getElementById('js-pie-legend').innerHTML = window.myDoughnut.generateLegend();
 };
 
 var getTheQuarter = function () {
