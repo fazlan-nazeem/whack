@@ -10,7 +10,7 @@ var urlPrefix = config.urlPrefix;
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AuntieSocial</title>
+<title>AuntieSocial - Home</title>
 <link rel="shortcut icon" href="<%=urlPrefix%>libs/theme-wso2_1.0/images/favicon.png" />
 <link href="<%=urlPrefix%>/css/whack/bootstrap.min.css" rel="stylesheet">
 <link href="<%=urlPrefix%>/css/whack/datepicker3.css" rel="stylesheet">
@@ -45,6 +45,9 @@ var urlPrefix = config.urlPrefix;
 						</ul>
 					</li>
 				</ul>
+				<ul class="nav navbar-nav">
+                    <li class="active"><a href="<%=urlPrefix%>/">Home <span class="sr-only">(current)</span></a></li>
+                </ul>
 			</div>
 
 		</div><!-- /.container-fluid -->
@@ -143,7 +146,7 @@ var urlPrefix = config.urlPrefix;
     </div>
 	<footer class="footer">
           <div class="container-fluid">
-            <p>Auntie-Social v1.0.0 | © 2016 <a href="http://adaalanaa.com/" target="_blank">Adaala Naane. Inc</a>.</p>
+            <p>AuntieSocial v1.0.0 | © 2016 <a href="http://adaalanaa.com/" target="_blank">Adaala Naane. Inc</a>.</p>
           </div>
     </footer>
 

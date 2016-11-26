@@ -497,8 +497,8 @@ a.bg-danger:hover {
 
 .navbar {
 	border: 0;
-	background:#2196F3;
-	border-bottom:1px solid #64B5F6;
+	background:#333;
+	border-bottom:2px solid #1b9bff;
 }
 
 .navbar input {
@@ -1568,12 +1568,21 @@ footer .glyph{
 }
 
 #account-profile {
-    height: 200px;
+    min-height: 200px;
     -webkit-transition: height 300ms ease-in-out;
     -moz-transition: height 300ms ease-in-out;
     -o-transition: height 300ms ease-in-out;
     transition: height 300ms ease-in-out;
 }
 #account-profile p{
-    padding-top:55px;
+    padding-top:15px;
+}
+
+.navbar-inverse .navbar-nav> a, .navbar-inverse .navbar-nav> a:hover, .navbar-inverse .navbar-nav> a:focus{
+    color:#76bcf3;
+    background:#23a0ff;
+}
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus{
+    color:#fff;
+    background:#1b9bff;
 }
