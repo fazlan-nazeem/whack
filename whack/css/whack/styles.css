@@ -1114,7 +1114,7 @@ footer .glyph{
     width:20px;
     stroke-width: 5px;
 }
-.cust-name{
+.cust-name,#company-name-text{
     color:#2196F3;
     font-weight:400;
 }
