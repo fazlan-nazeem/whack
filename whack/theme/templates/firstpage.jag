@@ -45,6 +45,9 @@ var urlPrefix = config.urlPrefix;
 						</ul>
 					</li>
 				</ul>
+				<ul class="nav navbar-nav">
+                    <li class="active"><a href="<%=urlPrefix%>/">Home <span class="sr-only">(current)</span></a></li>
+                </ul>
 			</div>
 
 		</div><!-- /.container-fluid -->
@@ -143,7 +146,7 @@ var urlPrefix = config.urlPrefix;
     </div>
 	<footer class="footer">
           <div class="container-fluid">
-            <p>Auntie-Social v1.0.0 | © 2016 <a href="http://adaalanaa.com/" target="_blank">Adaala Naane. Inc</a>.</p>
+            <p>AuntieSocial v1.0.0 | © 2016 <a href="http://adaalanaa.com/" target="_blank">Adaala Naane. Inc</a>.</p>
           </div>
     </footer>
 
