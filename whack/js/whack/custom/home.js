@@ -68,13 +68,13 @@ var getCompanyList = function () {
         dataType: "json",
         async: false,
         contentType: "application/json",
-        data: JSON.stringify({
-            "start": 0,
-            "length": 1000000
-        }),
         success: function (data) {
-            for (var i in data) {
-                sortedCompanyList.push(data[i].values.AccountName);
+            data.responses.response.sort(function (a, b) {
+                return b.Prediction - a.Prediction;
+            });
+
+            for (var i = 0; i < data.responses.response.length; i++) {
+                sortedCompanyList.push(data.responses.response[i].AccountName);
             }
         },
         error: function (error) {

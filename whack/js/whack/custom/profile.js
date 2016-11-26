@@ -57,6 +57,7 @@ $(document).ready(function () {
 
     getProductSpecificActivity();
     getTopFiveUsers();
+    getPrediction();
 });
 
 var checkDataExistance = function (data, array) {
@@ -73,6 +74,36 @@ var checkDataExistance = function (data, array) {
 
 var randomColorGen = function () {
     return Math.floor(Math.random() * 256)
+};
+
+var getPrediction = function () {
+    $.ajax({
+        url: "/whack/apis/prediction.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "accountName": accountName
+        }),
+        success: function (data) {
+            var pie = '<div class="easypiechart" id="easypiechart-bant-probability" data-percent="' + data.responses.Prediction * 100
+                + '%" ><span class="percent">' + data.responses.Prediction * 100 + '%</span></div>';
+
+            $("#probability").append(pie);
+
+            $('#easypiechart-bant-probability').easyPieChart({
+                size: 120,
+                scaleColor: false,
+                barColor: '#fff',
+                trackColor: '#FF4D4D',
+                lineWidth: 5,
+                scaleColor: '#f2f2f2'
+            });
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
 };
 
 var prepareProductSpecificDataSet = function (data) {
@@ -189,7 +220,6 @@ $(window).resize(function () {
 });
 
 var getProductSpecificActivity = function () {
-    debugger;
     $.ajax({
         url: "/whack/apis/product-activities.jag",
         type: "POST",
@@ -410,32 +440,36 @@ var getTopFiveUsers = function () {
             "accountName": accountName
         }),
         success: function (data) {
-            debugger;
-            data.responses.response.sort(function (a, b) {
-                return b.ActivityCount - a.ActivityCount;
-            });
-            if (data.responses.response.length == 0) {
+            if (data.responses) {
+                data.responses.response.sort(function (a, b) {
+                    return b.ActivityCount - a.ActivityCount;
+                });
+                if (data.responses.response.length == 0) {
+                    $("#custotable").empty();
+                    $("#custotable").append("<p>No Data Available</p>");
+                } else {
+                    for (var i = 0; i < data.responses.response.length; i++) {
+                        var tr = '<tr>' +
+                            '<td class="t-left">' + data.responses.response[i].Title + '</td>' +
+                            '<td class="t-left">' + data.responses.response[i].FirstName + '</td>' +
+                            '<td class="t-left">' + data.responses.response[i].Email + '</td>' +
+                            '<td><div class="easypiechart" id="easypiechart-' + i + '" data-percent="' + Math.round((data.responses.response[i].ActivityCount / userActivityCount) * 100) + '" ><span class="percent">' + Math.round((data.responses.response[i].ActivityCount / userActivityCount) * 100) + '%</span></div></td>' +
+                            '</tr>';
+                        $("#contacttbody").append(tr);
+                        var r = randomColorGen();
+                        var g = randomColorGen();
+                        var b = randomColorGen();
+                        $('#easypiechart-' + i).easyPieChart({
+                            size: 60,
+                            scaleColor: false,
+                            barColor: "rgb(" + r + "," + g + "," + b + ")",
+                            lineWidth: 4
+                        });
+                    }
+                }
+            } else {
                 $("#custotable").empty();
                 $("#custotable").append("<p>No Data Available</p>");
-            } else {
-                for (var i = 0; i < data.responses.response.length; i++) {
-                    var tr = '<tr>' +
-                        '<td class="t-left">' + data.responses.response[i].Title + '</td>' +
-                        '<td class="t-left">' + data.responses.response[i].FirstName + '</td>' +
-                        '<td class="t-left">' + data.responses.response[i].Email + '</td>' +
-                        '<td><div class="easypiechart" id="easypiechart-' + i + '" data-percent="' + Math.round((data.responses.response[i].ActivityCount / userActivityCount) * 100) + '" ><span class="percent">' + Math.round((data.responses.response[i].ActivityCount / userActivityCount) * 100) + '%</span></div></td>' +
-                        '</tr>';
-                    $("#contacttbody").append(tr);
-                    var r = randomColorGen();
-                    var g = randomColorGen();
-                    var b = randomColorGen();
-                    $('#easypiechart-' + i).easyPieChart({
-                        size: 60,
-                        scaleColor: false,
-                        barColor: "rgb(" + r + "," + g + "," + b + ")",
-                        lineWidth: 4
-                    });
-                }
             }
         },
         error: function (error) {

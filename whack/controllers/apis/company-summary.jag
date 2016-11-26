@@ -2,27 +2,11 @@
 (function () {
     var log = new Log("Company Details");
     var config = require("/configs/whack.json");
-    var urlPrefix = config.dasUrlPrefix;
-    var authorization = config.authorization;
-    var url = urlPrefix + "/analytics/search";
-    var countUrl = urlPrefix + "/analytics/search_count";
-    var requestData = request.getContent();
-    var query = '';
-    var searchQuery = {
-        'tableName': 'COMPANY_DETAILS',
-        'query': query,
-        'start': requestData.start,
-        'count': requestData.length,
-        'sortBy': [{
-            "field": "BANTPercentage",
-            "sortType": "DESC"
-        }]
-    };
+    var urlPrefix = config.dssUrlPrefix;
+    var url = urlPrefix + "services/whackdb/getAllAccountTeam";
 
-    var searchResult = post(url, stringify(searchQuery), {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": authorization
+    var searchResult = get(url, null, {
+        "Accept": "application/json"
     }, 'json');
 
     log.info(stringify(searchResult));

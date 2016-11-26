@@ -1,0 +1,24 @@
+<%
+(function () {
+    var log = new Log("User Activity");
+    var config = require("/configs/whack.json");
+    var urlPrefix = config.dssUrlPrefix;
+
+    var requestData = request.getContent();
+    var query = '';
+    var url = urlPrefix + "services/whackdb/getAccountTeam";
+
+    if (requestData.accountName) {
+        query = 'AccountName: "' + requestData.accountName + '" AND ';
+    }
+
+    //query += 'Date:[ ' + requestData.before + ' TO ' + requestData.now + ']';
+
+    var searchResult = get(url, ('?AName=' + requestData.accountName), {
+        "Accept": "application/json"
+    }, 'json');
+
+    log.info(stringify(searchResult));
+    print(stringify(searchResult.data));
+})();
+%>

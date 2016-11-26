@@ -6,7 +6,6 @@
     var authorization = config.authorization;
     var requestData = request.getContent();
     var accountName = requestData.accountName;
-    var query = '';
     var url = urlPrefix + "services/whackdb/getUserActivities";
     var searchResult = get(url, ('?AccountName=' + accountName), {
         "Accept": "application/json"

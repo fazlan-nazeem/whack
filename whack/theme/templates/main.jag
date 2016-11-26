@@ -103,8 +103,7 @@ var dssPrefix = config.dssUrlPrefix;
                 <div class="col-xs-12 col-md-4 col-lg-4">
                     <div class="panel panel-red boxshadow panel-bant-prob-same-height">
                         <div class="panel-heading dark-overlay">BANT Probabilty</div>
-                        <div class="panel-body">
-                            <div class="easypiechart" id="easypiechart-bant-probability" data-percent="80%" ><span class="percent">80%</span></div>
+                        <div id="probability" class="panel-body">
                         </div>
                     </div>
                 </div>
