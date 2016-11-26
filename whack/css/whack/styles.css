@@ -433,6 +433,8 @@ a.bg-danger:hover {
 .panel-teal .widget-left { background: #1ebfae; color: #fff; }
 .panel-orange .widget-left { background: #ffb53e; color: #fff; }
 .panel-red .widget-left { background: #f9243f; color: #fff; }
+.panel-amethyst .widget-left { background: #9b59b6; color: #fff; }
+.panel-emarald .widget-left { background: #2ecc71; color: #fff; }
 
 .panel-widget {
 	background: #fff;
