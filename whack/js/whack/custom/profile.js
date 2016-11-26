@@ -13,135 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var accountName = $("#company-name-text").text();
+var accountName = "";
+var userActivityCount = 0;
 $(document).ready(function () {
-    var rawTime;
-    var sqlTime;
-    var bantTime;
     var title = $("#company-name-text").text();
-    var companyName = $("#account-profile").data("company-name");
-    accountName = $("#company-name-text").text();
-    var domain = $("#account-profile").data("account-domain");
+    accountName = $("#accountName").val();
 
-    var viewData = function (data) {
-        $("#account-profile").html(data);
-        $(".references").remove();
-        $(".ambox-Cleanup").remove();
-    };
+    //var companyName = $("#account-profile").data("company-name");
+    //var accountName = $("#account-profile").data("account-name");
+    //var domain = $("#account-profile").data("account-domain");
 
-    var viewNOData = function (title) {
-        $("#account-profile").html("<div class='alert alert-danger text-center' role='alert'><strong>Oops! </strong>AuntieSocial couldn't find information related to '<b>" + title + "</b>' at the moment...</div>");
-    };
-
-    var getFormattedDate = function (date) {
-        var dd = date.getDate();
-        var mm = date.getMonth() + 1; //January is 0!
-
-        var yyyy = date.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-        return dd + '/' + mm + '/' + yyyy;
-    };
-
-    var viewBANTTimeLine = function () {
-        var htmlContent = "";
-        if (rawTime != null) {
-            var tempDate = new Date(rawTime);
-            // htmlContent = htmlContent + '<li><a href="#0" data-date="' + getFormattedDate(tempDate) + '">RAW</a></li>';
-            htmlContent = htmlContent + '<li><a href="#0" data-date="' + '20/02/2012' + '">RAW</a></li>';
-            if (sqlTime != null) {
-                tempDate = new Date(sqlTime);
-                htmlContent = htmlContent + '<li><a href="#0" data-date="' + '20/12/2012' + '" >SQL</a></li>';
-                // htmlContent = htmlContent + '<li><a href="#0" data-date="' + getFormattedDate(tempDate) + '" >SQL</a></li>';
-                if (bantTime != null) {
-                    tempDate = new Date(sqlTime + (sqlTime - rawTime));
-                    htmlContent = htmlContent + '<li><a href="#0" data-date="' + '20/02/2013' + '" >BANT</a></li>';
-                    // htmlContent = htmlContent + '<li><a href="#0" data-date="' + getFormattedDate(tempDate) + '" >BANT</a></li>';
-                }
-            }
-        }
-
-        $("#bantTimeLine").html(htmlContent);
-        $("#bantTimeLine").html(htmlContent);
-        genarateHorizontalTimeLine();
-    };
-
-    var getRAWQualifiedDate = function () {
-        $.ajax({
-            url: "/whack/apis/rawLeadTimeLine.jag",
-            type: "POST",
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify({
-                "accountName": accountName
-            }),
-            success: function (data) {
-                if (data.length == 0 || data[0] == undefined) {
-                    rawTime = null;
-                } else {
-                    rawTime = data[0].values.Date;
-                    getSQLQualifiedDate();
-                }
-
-            },
-            error: function (error) {
-                console.log(error.message);
-            }
-        });
-    };
-    var getSQLQualifiedDate = function () {
-        $.ajax({
-            url: "/whack/apis/sqLeadTimeLine.jag",
-            type: "POST",
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify({
-                "accountName": accountName
-            }),
-            success: function (data) {
-                if (data.length == 0 || data[0] == undefined) {
-                    sqlTime = null;
-                } else {
-                    sqlTime = data[0].values.Date;
-                    console.log("wore sql");
-                }
-                getBANTQualifiedDate();
-            },
-            error: function (error) {
-                console.log(error.message);
-            }
-        });
-    };
-    var getBANTQualifiedDate = function () {
-        $.ajax({
-            url: "/whack/apis/bantLeadTimeLine.jag",
-            type: "POST",
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify({
-                "accountName": accountName
-            }),
-            success: function (data) {
-                if (data.length == 0 || data[0] == undefined) {
-                    bantTime = null;
-                } else {
-                    bantTime = data[0].values.Date;
-                    console.log("wore bant");
-                }
-                viewBANTTimeLine();
-            },
-            error: function (error) {
-                console.log(error.message);
-                viewBANTTimeLine();
-            }
-        });
-    };
-
-    getRAWQualifiedDate();
+    //getCaseStudyStats();
+    getConsStats();
+    //getDownloadStats();
+    //getWebinarStats();
+    //getWhitePapersStats();
+    //getWorkshopsStats();
 
     $.ajax({
         dataType: 'jsonp', // no CORS
@@ -159,51 +46,110 @@ $(document).ready(function () {
         success: function (data) {
             if (data.query) {
                 var keys = Object.keys(data.query.pages);
-                if (keys[0] < 0) {
-                    $.ajax({
-                        dataType: 'jsonp', // no CORS
-                        url: 'https://en.wikipedia.org/w/api.php',
-                        data: {
-                            action: 'query',
-                            prop: 'revisions',
-                            rvprop: 'content',
-                            format: 'json',
-                            rvsection: '0', // infobox
-                            rvparse: '', // convert to HTML
-                            redirects: '', // follow title redirects
-                            titles: domain
-                        },
-                        success: function (data) {
-                            if (data.query) {
-                                var keys = Object.keys(data.query.pages);
-                                if (keys[0] < 0) {
-                                    viewNOData(domain);
-                                } else {
-                                    var content = data.query.pages[keys[0]].revisions[0]['*'];
-                                    var data = $('.infobox', content).get(0);
-                                    viewData(content);
-                                }
-                            } else {
-                                viewNOData(domain);
-                            }
-                        }
-                    });
-                } else {
-                    var content = data.query.pages[keys[0]].revisions[0]['*'];
-                    var data = $('.infobox', content).get(0);
-                    viewData(content);
-                }
+                var content = data.query.pages[keys[0]].revisions[0]['*'];
+                var data = $('.infobox', content).get(0);
+                viewData(content);
             } else {
-                viewNOData(title);
+                viewData("<div class='alert alert-danger text-center' role='alert'><strong>Oops! </strong>AuntieSocial couldn't find information related to '<b>" + title + "</b>' at the moment...</div>");
             }
         }
     });
-})
-;
 
+    getProductSpecificActivity();
+    getTopFiveUsers();
+});
+
+var checkDataExistance = function (data, array) {
+
+    for (var i = 0; i < array.length; i++) {
+        if (data == array[i]) {
+            return true;
+            break;
+        }
+    }
+
+    return false;
+};
+
+var randomColorGen = function () {
+    return Math.floor(Math.random() * 256)
+};
+
+var prepareProductSpecificDataSet = function (data) {
+    var timeLines = [];
+    var products = [];
+    var datasets = [];
+    for (var i = 0; i < data.length; i++) {
+        if (!checkDataExistance(data[i].values.Timestamp, timeLines)) {
+            timeLines.push(data[i].values.Timestamp);
+        }
+    }
+
+    timeLines.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(a) - new Date(b);
+    });
+
+    for (var i = 0; i < data.length; i++) {
+        if (!checkDataExistance(data[i].values.ProductName, products)) {
+            products.push(data[i].values.ProductName);
+            var r = randomColorGen();
+            var g = randomColorGen();
+            var b = randomColorGen();
+            var product = {
+                label: data[i].values.ProductName,
+                fillColor: "rgba(" + r + "," + g + "," + b + ",0.2)",
+                strokeColor: "rgba(" + r + "," + g + "," + b + ",1)",
+                pointColor: "rgba(" + r + "," + g + "," + b + ",1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(" + r + "," + g + "," + b + ",1)",
+                data: []
+            };
+
+            for (var j = 0; j < timeLines.length; j++) {
+                product.data.push(0);
+            }
+
+            product.data[timeLines.indexOf(data[i].values.Timestamp)] = data[i].values.count;
+            datasets.push(product);
+        } else {
+            for (var j = 0; j < datasets.length; j++) {
+                if (datasets[j].label == data[i].values.ProductName) {
+                    datasets[j].data[timeLines.indexOf(data[i].values.Timestamp)] = data[i].values.count;
+                    break;
+                }
+            }
+        }
+    }
+
+    var lineChartData = {
+        labels: timeLines,
+        datasets: datasets
+    };
+
+    var chart1 = document.getElementById("line-chart").getContext("2d");
+    if (datasets.length == 1 && datasets[0].data.length == 1) {
+        $("#line").empty();
+        $("#js-legend").empty();
+        $("#line").append("<p>Not Enough Historical Data Available</p>")
+    } else {
+        window.myLine = new Chart(chart1).Line(lineChartData, {
+            responsive: true
+        });
+        document.getElementById('js-legend').innerHTML = window.myLine.generateLegend();
+    }
+};
+
+var viewData = function (data) {
+    $("#account-profile").html(data);
+    $(".references").remove();
+    $(".ambox-Cleanup").remove();
+};
 
 var equalheight = function (container) {
-    var currentTallest = 500,
+    var currentTallest = 0,
         currentRowStart = 0,
         rowDivs = new Array(),
         $el,
@@ -234,11 +180,107 @@ var equalheight = function (container) {
 
 $(window).load(function () {
     equalheight('.panel-same-height');
+    equalheight('.panel-bant-prob-same-height');
 });
 
 $(window).resize(function () {
     equalheight('.panel-same-height');
+    equalheight('.panel-bant-prob-same-height');
 });
+
+var getProductSpecificActivity = function () {
+    debugger;
+    $.ajax({
+        url: "/whack/apis/product-activities.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "accountName": accountName,
+            "start": 0,
+            "length": 1000000
+        }),
+        success: function (data) {
+            prepareProductSpecificDataSet(data);
+            preparePieChart(data);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var preparePieChart = function (data) {
+    var products = [];
+    var datasets = [];
+
+    var doughnutData = [
+        {
+            value: 300,
+            color: "#30a5ff",
+            highlight: "#62b9fb",
+            label: "Blue"
+        },
+        {
+            value: 50,
+            color: "#ffb53e",
+            highlight: "#fac878",
+            label: "Orange"
+        },
+        {
+            value: 100,
+            color: "#1ebfae",
+            highlight: "#3cdfce",
+            label: "Teal"
+        },
+        {
+            value: 120,
+            color: "#f9243f",
+            highlight: "#f6495f",
+            label: "Red"
+        }
+
+    ];
+
+    for (var i = 0; i < data.length; i++) {
+        if (!checkDataExistance(data[i].values.ProductName, products)) {
+            products.push(data[i].values.ProductName);
+            var r = randomColorGen();
+            var g = randomColorGen();
+            var b = randomColorGen();
+
+            var product = {
+                value: data[i].values.count,
+                color: "rgba(" + r + "," + g + "," + b + ",0.2)",
+                highlight: "#62b9fb",
+                label: data[i].values.ProductName
+            };
+
+            datasets.push(product);
+        } else {
+            for (var j = 0; j < datasets.length; j++) {
+                if (datasets[j].label == data[i].values.ProductName) {
+                    datasets[j].value += data[i].values.count;
+                    break;
+                }
+            }
+        }
+    }
+
+    var chart3 = document.getElementById("doughnut-chart").getContext("2d");
+    window.myDoughnut = new Chart(chart3).Doughnut(datasets, {
+        responsive: true,
+        options: {
+            legend: {
+                display: true,
+                labels: {
+                    fontColor: 'rgb(255, 99, 132)'
+                }
+            }
+        }
+    });
+    document.getElementById('js-pie-legend').innerHTML = window.myDoughnut.generateLegend();
+};
 
 var getTheQuarter = function () {
     var currentDate = new Date();
@@ -256,19 +298,14 @@ var getTheQuarter = function () {
     return timeStamp;
 };
 
-var getNewRawLeadStats = function () {
+var getDownloadStats = function () {
     $.ajax({
-        url: "/whack/apis/new-raw-leads.jag",
+        url: "",
         type: "POST",
         dataType: "json",
         contentType: "application/json",
-        data: JSON.stringify({
-            "accountName": accountName,
-            "before": getTheQuarter(),
-            "now": $.now()
-        }),
         success: function (data) {
-            $("#txtNRL").text("" + 60);
+            $("#txtdownloads").text("" + data);
         },
         error: function (error) {
             console.log(error.message);
@@ -276,19 +313,14 @@ var getNewRawLeadStats = function () {
     });
 };
 
-var getSQLStats = function () {
+var getWebinarStats = function () {
     $.ajax({
-        url: "/whack/apis/sql.jag",
+        url: "",
         type: "POST",
         dataType: "json",
         contentType: "application/json",
-        data: JSON.stringify({
-            "accountName": accountName,
-            "before": getTheQuarter(),
-            "now": $.now()
-        }),
         success: function (data) {
-            $("#txtSQL").text("" + 60);
+            $("#txtwebinars").text("" + data);
         },
         error: function (error) {
             console.log(error.message);
@@ -296,19 +328,14 @@ var getSQLStats = function () {
     });
 };
 
-var getBantStats = function () {
+var getCaseStudyStats = function () {
     $.ajax({
-        url: "/whack/apis/bant.jag",
+        url: "",
         type: "POST",
         dataType: "json",
         contentType: "application/json",
-        data: JSON.stringify({
-            "accountName": accountName,
-            "before": getTheQuarter(),
-            "now": $.now()
-        }),
         success: function (data) {
-            $("#txtBanted").text("" + 60);
+            $("#txtcs").text("" + data);
         },
         error: function (error) {
             console.log(error.message);
@@ -316,19 +343,100 @@ var getBantStats = function () {
     });
 };
 
-var getNewUserStats = function () {
+var getWhitePapersStats = function () {
     $.ajax({
         url: "/whack/apis/user-activity.jag",
         type: "POST",
         dataType: "json",
         contentType: "application/json",
+        success: function (data) {
+            $("#txtwhitep").text("" + data);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getWorkshopsStats = function () {
+    $.ajax({
+        url: $("#dssUrl").val() + "services/whackdb/getActivities?AccountName=" + accountName,
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            $("#txtWorkshops").text("" + data);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getConsStats = function () {
+    $.ajax({
+        url: "/whack/apis/getActivityStats.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        async: false,
         data: JSON.stringify({
-            "accountName": accountName,
-            "before": getTheQuarter(),
-            "now": $.now()
+            "accountName": accountName
         }),
         success: function (data) {
-            $("#txtUsers").text("" + 60);
+            $("#txtCons").text("" + data.response.wso2con);
+            $("#txtWorkshops").text("" + data.response.Workshop);
+            $("#txtwhitep").text("" + data.response.Whitepaper);
+            $("#txtcs").text("" + data.response.Casestudy);
+            $("#txtwebinars").text("" + data.response.Webinar);
+            $("#txtdownloads").text("" + data.response.Download);
+
+            userActivityCount = parseInt(data.response.wso2con) + parseInt(data.response.Workshop)
+                + parseInt(data.response.Whitepaper) + parseInt(data.response.Casestudy) + parseInt(data.response.Webinar) + parseInt(data.response.Download);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getTopFiveUsers = function () {
+    $.ajax({
+        url: "/whack/apis/user-activities.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "accountName": accountName
+        }),
+        success: function (data) {
+            debugger;
+            data.responses.response.sort(function (a, b) {
+                return b.ActivityCount - a.ActivityCount;
+            });
+            if (data.responses.response.length == 0) {
+                $("#custotable").empty();
+                $("#custotable").append("<p>No Data Available</p>");
+            } else {
+                for (var i = 0; i < data.responses.response.length; i++) {
+                    var tr = '<tr>' +
+                        '<td class="t-left">' + data.responses.response[i].Title + '</td>' +
+                        '<td class="t-left">' + data.responses.response[i].FirstName + '</td>' +
+                        '<td class="t-left">' + data.responses.response[i].Email + '</td>' +
+                        '<td><div class="easypiechart" id="easypiechart-' + i + '" data-percent="' + Math.round((data.responses.response[i].ActivityCount / userActivityCount) * 100) + '" ><span class="percent">' + Math.round((data.responses.response[i].ActivityCount / userActivityCount) * 100) + '%</span></div></td>' +
+                        '</tr>';
+                    $("#contacttbody").append(tr);
+                    var r = randomColorGen();
+                    var g = randomColorGen();
+                    var b = randomColorGen();
+                    $('#easypiechart-' + i).easyPieChart({
+                        size: 60,
+                        scaleColor: false,
+                        barColor: "rgb(" + r + "," + g + "," + b + ")",
+                        lineWidth: 4
+                    });
+                }
+            }
         },
         error: function (error) {
             console.log(error.message);

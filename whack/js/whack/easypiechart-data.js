@@ -56,6 +56,26 @@ $(function() {
       barColor: '#f9243f',
       lineWidth:   4
     });
+    $('#easypiechart-5').easyPieChart({
+        size:60,
+        scaleColor: false,
+        barColor: '#f9243f',
+        lineWidth:   4
+    });
+
+    $('#easypiechart-bant-probability').easyPieChart({
+       size:120,
+       scaleColor: false,
+       barColor: '#fff',
+       trackColor:  '#FF4D4D',
+       lineWidth:   5,
+       scaleColor:	'#f2f2f2',
+       onStep: function(value) {
+        //console.log(this.el);
+        //var elem = this;
+        //$(elem).children('span').text(~~value);
+       }
+    });
 });
 
 function randomIntFromInterval(min,max)

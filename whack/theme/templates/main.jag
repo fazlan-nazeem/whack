@@ -5,6 +5,7 @@
 <%
 var config = require("/configs/whack.json");
 var urlPrefix = config.urlPrefix;
+var dssPrefix = config.dssUrlPrefix;
 %>
 
 
@@ -29,6 +30,9 @@ var urlPrefix = config.urlPrefix;
 </head>
 
 <body>
+<input id="accountName" type="hidden" value="<%=accountName%>"/>
+<input id="url" type="hidden" value="<%=urlPrefix%>"/>
+<input id="dssUrl" type="hidden" value="<%=dssPrefix%>"/>
 	<nav class="navbar navbar-inverse navbar-fixed-top nav-boxshadow" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -66,12 +70,12 @@ var urlPrefix = config.urlPrefix;
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-9 col-lg-9 main">
+        <div class="col-sm-12 col-lg-9 main">
 
             <div class="row">
-                <div class="col-xs-12 col-md-12 col-lg-12">
-                   <div class="panel panel-default boxshadow">
-                       <div class="panel-heading">BANT Timeline</div>
+                <div class="col-xs-12 col-md-8 col-lg-8">
+                   <div class="panel panel-default boxshadow panel-bant-prob-same-height">
+                       <div class="panel-heading">Current BANT Timeline</div>
                        <div class="panel-body">
                             <section class="cd-horizontal-timeline">
                                 <div class="timeline">
@@ -93,6 +97,14 @@ var urlPrefix = config.urlPrefix;
                        </div>
                    </div>
                 </div>
+                <div class="col-xs-12 col-md-4 col-lg-4">
+                    <div class="panel panel-red boxshadow panel-bant-prob-same-height">
+                        <div class="panel-heading dark-overlay">BANT Probabilty</div>
+                        <div class="panel-body">
+                            <div class="easypiechart" id="easypiechart-bant-probability" data-percent="80%" ><span class="percent">80%</span></div>
+                        </div>
+                    </div>
+                </div>
             </div><!--/.row-->
 
             <div class="row">
@@ -100,48 +112,47 @@ var urlPrefix = config.urlPrefix;
                     <div class="panel panel-default boxshadow">
                         <div class="panel-heading">Product Specific Activity</div>
                         <div class="panel-body">
-                            <div class="canvas-wrapper">
+                            <div id="line" class="canvas-wrapper">
                                 <canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
                             </div>
+                            <div id="js-legend" class="chart-legend"></div>
                         </div>
                     </div>
                 </div>
             </div><!--/.row-->
 
             <div class="row">
-                <div class="col-sm-7 col-lg-7">
+                <div class="col-sm-12 col-lg-7">
                     <div class="panel panel-default boxshadow panel-same-height">
                         <div class="panel-heading">Product Summery</div>
                         <div class="panel-body">
-                            <div class="canvas-wrapper">
+                            <div id="pie" class="canvas-wrapper">
                                 <canvas class="chart" id="doughnut-chart" ></canvas>
                             </div>
+                            <div id="js-pie-legend" class="chart-legend"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5 col-lg-5">
+                <div class="col-sm-12 col-lg-5">
                     <div class="panel panel-default boxshadow panel-same-height">
-                        <div class="panel-heading">Raw Lead Categories</div>
+                        <div class="panel-heading">Top Interested Parties</div>
                         <div class="panel-body easypiechart-panel">
-                            <div class="row no-padding add-padding-left-2x add-padding-right-2x">
-                                <table class="col-sm-12">
-                                    <tr>
-                                        <td class="t-left description-cell">Top Management</td>
-                                        <td><div class="easypiechart" id="easypiechart-1" data-percent="40" ><span class="percent">40%</span></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="t-left">Middle Management</td>
-                                        <td><div class="easypiechart" id="easypiechart-2" data-percent="20" ><span class="percent">20%</span></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="t-left">Normal</td>
-                                        <td><div class="easypiechart" id="easypiechart-3" data-percent="70" ><span class="percent">70%</span></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="t-left">Other</td>
-                                        <td><div class="easypiechart" id="easypiechart-4" data-percent="90" ><span class="percent">90%</span></div></td>
-                                    </tr>
+                            <div id="custotable" class="row no-padding add-padding-left-2x add-padding-right-2x">
+                            <div class="table-responsive">
+                                <table class="table table-interest">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="contacttbody">
+
+                                    </tbody>
                                 </table>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -150,79 +161,79 @@ var urlPrefix = config.urlPrefix;
             </div><!--/.row-->
 
             <div class="row">
-                <div class="col-xs-12 col-md-2 col-lg-2">
-                    <div class="panel panel-midnight-blue panel-widget boxshadow">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                    <div class="panel panel-red panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
+                                <svg class="glyph stroked arrow down"><use xlink:href="#stroked-arrow-down"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
-                                <div class="large">120</div>
+                                <div id="txtdownloads" class="large">120</div>
                                 <div class="text-muted">Downloads</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
                     <div class="panel panel-orange panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked empty-message"><use xlink:href="#stroked-empty-message"></use></svg>
+                                <svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
-                                <div class="large">52</div>
+                                <div id="txtwebinars" class="large">52</div>
                                 <div class="text-muted">Webinars</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
                     <div class="panel panel-teal panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
+                                <svg class="glyph stroked pen tip"><use xlink:href="#stroked-pen-tip"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
-                                <div class="large">24</div>
+                                <div id="txtcs" class="large">24</div>
                                 <div class="text-muted">Case studies</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2">
-                    <div class="panel panel-red panel-widget boxshadow">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                    <div class="panel panel-midnight-blue panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
+                                <svg class="glyph stroked blank document"><use xlink:href="#stroked-blank-document"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
-                                <div class="large">25.2k</div>
+                                <div id="txtwhitep" class="large">25.2k</div>
                                 <div class="text-muted">White papers</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2">
-                    <div class="panel panel-red panel-widget boxshadow">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                    <div class="panel panel-amethyst panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
+                                <svg class="glyph stroked round coffee mug"><use xlink:href="#stroked-round-coffee-mug"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
-                                <div class="large">25.2k</div>
+                                <div id="txtWorkshops" class="large">25.2k</div>
                                 <div class="text-muted">Workshops</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2">
-                    <div class="panel panel-red panel-widget boxshadow">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
+                    <div class="panel panel-emarald panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
+                                <svg class="glyph stroked sound on"><use xlink:href="#stroked-sound-on"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
-                                <div class="large">25.2k</div>
+                                <div id="txtCons" class="large">25.2k</div>
                                 <div class="text-muted">Cons</div>
                             </div>
                         </div>
@@ -232,14 +243,14 @@ var urlPrefix = config.urlPrefix;
 
         </div>	<!--/.main-->
 
-        <div class="col-sm-3 col-lg-3">
+        <div class="col-sm-12 col-lg-3">
             <div class="panel panel-default boxshadow">
                 <div class="panel-heading">
                     AuntieSocial Finds
                 </div>
-                <div class="panel-body" id="account-profile" data-account-name="fidelity investments" data-account-domain="fidelity.com" data-company-name="fidelity">
+                <div class="panel-body" id="account-profile" data-account-name="<%=accountName%>" data-account-domain="fidelity.com" data-company-name="fidelity">
                     <!--loading content-->
-                    <p class="text-center add-padding-bottom-2x">please&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wait...</p>
+                    <p class="text-center add-padding-bottom-2x">please wait...</p>
                     <div class="cssload-dots">
                     	<div class="cssload-dot"></div>
                     	<div class="cssload-dot"></div>

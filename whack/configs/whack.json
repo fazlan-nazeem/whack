@@ -1,5 +1,6 @@
 {
   "urlPrefix": "https://localhost:9443/whack/",
-  "dasUrlPrefix": "https://10.100.7.37:9443/",
+  "dasUrlPrefix": "https://localhost:9445/",
+  "dssUrlPrefix": "http://10.100.7.37:9764/",
   "authorization": "Basic YWRtaW46YWRtaW4="
 }

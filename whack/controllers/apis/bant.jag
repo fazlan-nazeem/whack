@@ -13,14 +13,14 @@
         query = 'AccountName: "' + requestData.accountName + '" AND ';
     }
 
-    query += 'Date:[ ' + requestData.before + ' TO ' + requestData.now + ']';
+    //query += 'Date:[ ' + requestData.before + ' TO ' + requestData.now + ']';
 
     var searchQuery = {
-        'tableName': 'COMPANY_DETAILS',
+        'tableName': 'AM_BANTED_ACCOUNT_SUMMARY',
         'query': query
     };
 
-    var searchResult = post(url, stringify(searchQuery), {
+    var searchResult = post(countUrl, stringify(searchQuery), {
         "Content-Type": "application/json",
         "Accept": "application/json",
         "Authorization": authorization

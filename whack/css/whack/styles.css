@@ -433,6 +433,8 @@ a.bg-danger:hover {
 .panel-teal .widget-left { background: #1ebfae; color: #fff; }
 .panel-orange .widget-left { background: #ffb53e; color: #fff; }
 .panel-red .widget-left { background: #f9243f; color: #fff; }
+.panel-amethyst .widget-left { background: #9b59b6; color: #fff; }
+.panel-emarald .widget-left { background: #2ecc71; color: #fff; }
 
 .panel-widget {
 	background: #fff;
@@ -678,9 +680,24 @@ h1.page-header {
 .easypiechart .percent {
 	display: block;
 	position: absolute;
-	font-size: 16px;
-	top: 20px;
+	font-size: 15px;
+    top: 19px;
 	width: 60px;
+}
+
+#easypiechart-bant-probability{
+    position: relative;
+    text-align: center;
+    width: 120px;
+    height: 120px;
+    margin: 10px auto;
+}
+#easypiechart-bant-probability .percent{
+    display: block;
+    position: absolute;
+    font-size: 30px;
+    top: 45px;
+    width: 120px;
 }
 
 #easypiechart-blue .percent { color: #30a5ff;}
@@ -692,6 +709,8 @@ h1.page-header {
 #easypiechart-2 .percent { color: #1ebfae;}
 #easypiechart-3 .percent { color: #ffb53e;}
 #easypiechart-4 .percent { color: #ef4040;}
+
+#easypiechart-bant-probability .percent { color: #fff;}
 
 /*Calendar Widget*/
 
@@ -1095,7 +1114,7 @@ footer .glyph{
     width:20px;
     stroke-width: 5px;
 }
-.cust-name{
+.cust-name,#company-name-text{
     color:#2196F3;
     font-weight:400;
 }
@@ -1575,7 +1594,7 @@ footer .glyph{
     transition: height 300ms ease-in-out;
 }
 #account-profile p{
-    padding-top:55px;
+    padding-top:15px;
 }
 
 .navbar-inverse .navbar-nav> a, .navbar-inverse .navbar-nav> a:hover, .navbar-inverse .navbar-nav> a:focus{
@@ -1585,4 +1604,25 @@ footer .glyph{
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus{
     color:#fff;
     background:#1b9bff;
+}
+.table-interest>tbody>tr>th, .table-interest>tbody>tr>td{
+    vertical-align:middle;
+}
+
+.chart-legend{
+    position:absolute;
+    top:100px;
+    right: 40px;
+}
+.chart-legend .line-legend li span{
+    display:inline-block;
+    height:10px;
+    width:10px;
+    margin-right:10px;
+}
+.chart-legend .doughnut-legend li span{
+    display:inline-block;
+    height:10px;
+    width:10px;
+    margin-right:10px;
 }

@@ -18,35 +18,18 @@
  *
  */
 (function () {
-    var log = new Log("Product-Activities");
+    var log = new Log("Activities-Stat");
     var config = require("/configs/whack.json");
-    var urlPrefix = config.dasUrlPrefix;
+    var urlPrefix = config.dssUrlPrefix;
     var authorization = config.authorization;
-    var url = urlPrefix + "/analytics/search";
-    var countUrl = urlPrefix + "/analytics/search_count";
     var requestData = request.getContent();
     var accountName = requestData.accountName;
-    var query = 'AccountName: "' + accountName + '"';
-
-    log.info(query);
-    var searchQuery = {
-        'tableName': 'AM_PRODUCT_TIMELINE_SUMMARY',
-        'query': query,
-        'start': requestData.start,
-        'count': requestData.length
-    };
-
-    log.info(stringify(searchQuery));
-
-    var searchResult = post(url, stringify(searchQuery), {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": authorization
+    log.info(accountName);
+    var url = urlPrefix + "services/whackdb/getActivities";
+    log.info(url);
+    var searchResult = get(url, ('?AccountName=' + accountName), {
+        "Accept": "application/json"
     }, 'json');
-
-    if (searchResult.status == "failed") {
-        searchResult.data = [];
-    }
 
     log.info(stringify(searchResult));
     print(stringify(searchResult.data));
