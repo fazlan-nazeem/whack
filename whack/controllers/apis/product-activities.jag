@@ -27,6 +27,8 @@
     var requestData = request.getContent();
     var accountName = requestData.accountName;
     var query = 'AccountName: "' + accountName + '"';
+
+    log.info(query);
     var searchQuery = {
         'tableName': 'AM_PRODUCT_TIMELINE_SUMMARY',
         'query': query,
@@ -34,12 +36,19 @@
         'count': requestData.length
     };
 
+    log.info(stringify(searchQuery));
+
     var searchResult = post(url, stringify(searchQuery), {
         "Content-Type": "application/json",
         "Accept": "application/json",
         "Authorization": authorization
     }, 'json');
 
+    if (searchResult.status == "failed") {
+        searchResult.data = [];
+    }
+
+    log.info(stringify(searchResult));
     print(stringify(searchResult.data));
 })();
 %>

@@ -29,6 +29,8 @@ var urlPrefix = config.urlPrefix;
 </head>
 
 <body>
+<input id="accountName" type="hidden" value="<%=accountName%>"/>
+<input id="url" type="hidden" value="<%=urlPrefix%>"/>
 	<nav class="navbar navbar-inverse navbar-fixed-top nav-boxshadow" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -99,9 +101,10 @@ var urlPrefix = config.urlPrefix;
                     <div class="panel panel-default boxshadow">
                         <div class="panel-heading">Product Specific Activity</div>
                         <div class="panel-body">
-                            <div class="canvas-wrapper">
+                            <div id="line" class="canvas-wrapper">
                                 <canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
                             </div>
+                            <div id="js-legend" class="chart-legend"></div>
                         </div>
                     </div>
                 </div>
@@ -236,7 +239,7 @@ var urlPrefix = config.urlPrefix;
                 <div class="panel-heading">
                     AuntieSocial Finds
                 </div>
-                <div class="panel-body" id="account-profile" data-account-name="fidelity investments" data-account-domain="fidelity.com" data-company-name="fidelity">
+                <div class="panel-body" id="account-profile" data-account-name="<%=accountName%>" data-account-domain="fidelity.com" data-company-name="fidelity">
                     <!--loading content-->
                     <p class="text-center add-padding-bottom-2x">please&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wait...</p>
                     <div class="cssload-dots">
