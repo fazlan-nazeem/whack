@@ -1,4 +1,4 @@
-var genarateHorizontalTimeLine = function () {
+jQuery(document).ready(function($){
 	var timelines = $('.cd-horizontal-timeline'),
 		eventsMinDistance = 120;
 
@@ -265,4 +265,4 @@ var genarateHorizontalTimeLine = function () {
 		//check if mobile or desktop device
 		return window.getComputedStyle(document.querySelector('.cd-horizontal-timeline'), '::before').getPropertyValue('content').replace(/'/g, "").replace(/"/g, "");
 	}
-};
+});
