@@ -22,7 +22,7 @@ $(document).ready(function () {
     getNewRawLeadStats();
     getSQLStats();
     getBantStats();
-    //getNewUserStats();
+    getNewUserStats();
     getCompanyList();
 
     var typeaheadElem = $('#scrollable-dropdown-menu .typeahead').typeahead({
@@ -84,17 +84,23 @@ var getCompanyList = function () {
 };
 
 var getTheQuarter = function () {
+    debugger;
     var currentDate = new Date();
     var currentMonth = currentDate.getMonth();
     var timeStamp = 0;
+    var setTime = 0;
     if (currentMonth >= 0 && currentMonth < 3) {
-        timeStamp = currentDate.setMonth(currentMonth);
+        setTime = currentMonth - 0;
+        timeStamp = currentDate.setMonth(currentMonth - setTime);
     } else if (currentMonth >= 3 && currentMonth < 6) {
-        timeStamp = currentDate.setMonth(currentMonth - 3);
+        setTime = currentMonth - 3;
+        timeStamp = currentDate.setMonth(currentMonth - setTime);
     } else if (currentMonth >= 6 && currentMonth < 9) {
-        timeStamp = currentDate.setMonth(currentMonth - 6);
+        setTime = currentMonth - 6;
+        timeStamp = currentDate.setMonth(currentMonth - setTime);
     } else {
-        timeStamp = currentDate.setMonth(currentMonth - 9);
+        setTime = currentMonth - 9;
+        timeStamp = currentDate.setMonth(currentMonth - setTime);
     }
     return timeStamp;
 };
@@ -107,7 +113,7 @@ var getNewRawLeadStats = function () {
         contentType: "application/json",
         data: JSON.stringify({
             "before": getTheQuarter(),
-            "now": $.now()
+            "now": new Date()
         }),
         success: function (data) {
             $("#txtNRL").text(data);
@@ -167,7 +173,7 @@ var getNewUserStats = function () {
             "now": $.now()
         }),
         success: function (data) {
-            $("#txtUsers").text("" + 60);
+            $("#txtUsers").text(data.response.count);
         },
         error: function (error) {
             console.log(error.message);

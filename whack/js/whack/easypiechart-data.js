@@ -56,6 +56,12 @@ $(function() {
       barColor: '#f9243f',
       lineWidth:   4
     });
+    $('#easypiechart-5').easyPieChart({
+        size:60,
+        scaleColor: false,
+        barColor: '#f9243f',
+        lineWidth:   4
+    });
 
     $('#easypiechart-bant-probability').easyPieChart({
        size:120,

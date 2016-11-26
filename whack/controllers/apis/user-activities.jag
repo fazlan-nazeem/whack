@@ -1,0 +1,18 @@
+<%
+(function () {
+    var log = new Log("User Activities");
+    var config = require("/configs/whack.json");
+    var urlPrefix = config.dssUrlPrefix;
+    var authorization = config.authorization;
+    var requestData = request.getContent();
+    var accountName = requestData.accountName;
+    var query = '';
+    var url = urlPrefix + "services/whackdb/getUserActivities";
+    var searchResult = get(url, ('?AccountName=' + accountName), {
+        "Accept": "application/json"
+    }, 'json');
+
+    log.info(stringify(searchResult));
+    print(stringify(searchResult.data));
+})();
+%>

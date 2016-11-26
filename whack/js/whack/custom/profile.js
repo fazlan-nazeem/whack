@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 var accountName = "";
+var userActivityCount = 0;
 $(document).ready(function () {
     var title = $("#company-name-text").text();
     accountName = $("#accountName").val();
@@ -21,6 +22,13 @@ $(document).ready(function () {
     //var companyName = $("#account-profile").data("company-name");
     //var accountName = $("#account-profile").data("account-name");
     //var domain = $("#account-profile").data("account-domain");
+
+    //getCaseStudyStats();
+    getConsStats();
+    //getDownloadStats();
+    //getWebinarStats();
+    //getWhitePapersStats();
+    //getWorkshopsStats();
 
     $.ajax({
         dataType: 'jsonp', // no CORS
@@ -48,6 +56,7 @@ $(document).ready(function () {
     });
 
     getProductSpecificActivity();
+    getTopFiveUsers();
 });
 
 var checkDataExistance = function (data, array) {
@@ -289,19 +298,14 @@ var getTheQuarter = function () {
     return timeStamp;
 };
 
-var getNewRawLeadStats = function () {
+var getDownloadStats = function () {
     $.ajax({
-        url: "/whack/apis/new-raw-leads.jag",
+        url: "",
         type: "POST",
         dataType: "json",
         contentType: "application/json",
-        data: JSON.stringify({
-            "accountName": accountName,
-            "before": getTheQuarter(),
-            "now": $.now()
-        }),
         success: function (data) {
-            $("#txtNRL").text("" + 60);
+            $("#txtdownloads").text("" + data);
         },
         error: function (error) {
             console.log(error.message);
@@ -309,19 +313,14 @@ var getNewRawLeadStats = function () {
     });
 };
 
-var getSQLStats = function () {
+var getWebinarStats = function () {
     $.ajax({
-        url: "/whack/apis/sql.jag",
+        url: "",
         type: "POST",
         dataType: "json",
         contentType: "application/json",
-        data: JSON.stringify({
-            "accountName": accountName,
-            "before": getTheQuarter(),
-            "now": $.now()
-        }),
         success: function (data) {
-            $("#txtSQL").text("" + 60);
+            $("#txtwebinars").text("" + data);
         },
         error: function (error) {
             console.log(error.message);
@@ -329,19 +328,14 @@ var getSQLStats = function () {
     });
 };
 
-var getBantStats = function () {
+var getCaseStudyStats = function () {
     $.ajax({
-        url: "/whack/apis/bant.jag",
+        url: "",
         type: "POST",
         dataType: "json",
         contentType: "application/json",
-        data: JSON.stringify({
-            "accountName": accountName,
-            "before": getTheQuarter(),
-            "now": $.now()
-        }),
         success: function (data) {
-            $("#txtBanted").text("" + 60);
+            $("#txtcs").text("" + data);
         },
         error: function (error) {
             console.log(error.message);
@@ -349,19 +343,100 @@ var getBantStats = function () {
     });
 };
 
-var getNewUserStats = function () {
+var getWhitePapersStats = function () {
     $.ajax({
         url: "/whack/apis/user-activity.jag",
         type: "POST",
         dataType: "json",
         contentType: "application/json",
+        success: function (data) {
+            $("#txtwhitep").text("" + data);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getWorkshopsStats = function () {
+    $.ajax({
+        url: $("#dssUrl").val() + "services/whackdb/getActivities?AccountName=" + accountName,
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            $("#txtWorkshops").text("" + data);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getConsStats = function () {
+    $.ajax({
+        url: "/whack/apis/getActivityStats.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        async: false,
         data: JSON.stringify({
-            "accountName": accountName,
-            "before": getTheQuarter(),
-            "now": $.now()
+            "accountName": accountName
         }),
         success: function (data) {
-            $("#txtUsers").text("" + 60);
+            $("#txtCons").text("" + data.response.wso2con);
+            $("#txtWorkshops").text("" + data.response.Workshop);
+            $("#txtwhitep").text("" + data.response.Whitepaper);
+            $("#txtcs").text("" + data.response.Casestudy);
+            $("#txtwebinars").text("" + data.response.Webinar);
+            $("#txtdownloads").text("" + data.response.Download);
+
+            userActivityCount = parseInt(data.response.wso2con) + parseInt(data.response.Workshop)
+                + parseInt(data.response.Whitepaper) + parseInt(data.response.Casestudy) + parseInt(data.response.Webinar) + parseInt(data.response.Download);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+};
+
+var getTopFiveUsers = function () {
+    $.ajax({
+        url: "/whack/apis/user-activities.jag",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "accountName": accountName
+        }),
+        success: function (data) {
+            debugger;
+            data.responses.response.sort(function (a, b) {
+                return b.ActivityCount - a.ActivityCount;
+            });
+            if (data.responses.response.length == 0) {
+                $("#custotable").empty();
+                $("#custotable").append("<p>No Data Available</p>");
+            } else {
+                for (var i = 0; i < data.responses.response.length; i++) {
+                    var tr = '<tr>' +
+                        '<td class="t-left">' + data.responses.response[i].Title + '</td>' +
+                        '<td class="t-left">' + data.responses.response[i].FirstName + '</td>' +
+                        '<td class="t-left">' + data.responses.response[i].Email + '</td>' +
+                        '<td><div class="easypiechart" id="easypiechart-' + i + '" data-percent="' + Math.round((data.responses.response[i].ActivityCount / userActivityCount) * 100) + '" ><span class="percent">' + Math.round((data.responses.response[i].ActivityCount / userActivityCount) * 100) + '%</span></div></td>' +
+                        '</tr>';
+                    $("#contacttbody").append(tr);
+                    var r = randomColorGen();
+                    var g = randomColorGen();
+                    var b = randomColorGen();
+                    $('#easypiechart-' + i).easyPieChart({
+                        size: 60,
+                        scaleColor: false,
+                        barColor: "rgb(" + r + "," + g + "," + b + ")",
+                        lineWidth: 4
+                    });
+                }
+            }
         },
         error: function (error) {
             console.log(error.message);
