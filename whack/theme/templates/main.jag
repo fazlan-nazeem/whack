@@ -77,11 +77,8 @@ var urlPrefix = config.urlPrefix;
                                 <div class="timeline">
                                     <div class="events-wrapper">
                                         <div class="events">
-                                            <ol>
-                                                <li><a href="#0" data-date="16/01/2014" class="selected">16 Jan</a></li>
-                                                <li><a href="#0" data-date="16/02/2014">28 Feb</a></li>
-                                                <li><a href="#0" data-date="16/03/2014">20 Mar</a></li>
-                                                <li><a href="#0" data-date="16/04/2014">20 May</a></li>
+                                            <ol id="bantTimeLine">
+
                                             </ol>
                                             <span class="filling-line" aria-hidden="true"></span>
                                         </div> <!-- .events -->
