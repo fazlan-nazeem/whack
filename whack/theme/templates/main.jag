@@ -158,10 +158,10 @@ var urlPrefix = config.urlPrefix;
 
             <div class="row">
                 <div class="col-xs-12 col-md-2 col-lg-2">
-                    <div class="panel panel-midnight-blue panel-widget boxshadow">
+                    <div class="panel panel-red panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked bag"><use xlink:href="#stroked-bag"></use></svg>
+                                <svg class="glyph stroked arrow down"><use xlink:href="#stroked-arrow-down"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">120</div>
@@ -174,7 +174,7 @@ var urlPrefix = config.urlPrefix;
                     <div class="panel panel-orange panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked empty-message"><use xlink:href="#stroked-empty-message"></use></svg>
+                                <svg class="glyph stroked two messages"><use xlink:href="#stroked-two-messages"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">52</div>
@@ -187,7 +187,7 @@ var urlPrefix = config.urlPrefix;
                     <div class="panel panel-teal panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg>
+                                <svg class="glyph stroked pen tip"><use xlink:href="#stroked-pen-tip"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">24</div>
@@ -197,10 +197,10 @@ var urlPrefix = config.urlPrefix;
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-2 col-lg-2">
-                    <div class="panel panel-red panel-widget boxshadow">
+                    <div class="panel panel-midnight-blue panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
+                                <svg class="glyph stroked blank document"><use xlink:href="#stroked-blank-document"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">25.2k</div>
@@ -210,10 +210,10 @@ var urlPrefix = config.urlPrefix;
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-2 col-lg-2">
-                    <div class="panel panel-red panel-widget boxshadow">
+                    <div class="panel panel-amethyst panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
+                                <svg class="glyph stroked round coffee mug"><use xlink:href="#stroked-round-coffee-mug"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">25.2k</div>
@@ -223,10 +223,10 @@ var urlPrefix = config.urlPrefix;
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-2 col-lg-2">
-                    <div class="panel panel-red panel-widget boxshadow">
+                    <div class="panel panel-emarald panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
-                                <svg class="glyph stroked app-window-with-content"><use xlink:href="#stroked-app-window-with-content"></use></svg>
+                                <svg class="glyph stroked sound on"><use xlink:href="#stroked-sound-on"/></svg>
                             </div>
                             <div class="col-sm-12 col-lg-7 widget-right">
                                 <div class="large">25.2k</div>
