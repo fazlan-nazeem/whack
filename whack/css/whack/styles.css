@@ -1575,7 +1575,7 @@ footer .glyph{
     transition: height 300ms ease-in-out;
 }
 #account-profile p{
-    padding-top:55px;
+    padding-top:15px;
 }
 
 .navbar-inverse .navbar-nav> a, .navbar-inverse .navbar-nav> a:hover, .navbar-inverse .navbar-nav> a:focus{

@@ -242,7 +242,7 @@ var urlPrefix = config.urlPrefix;
                 </div>
                 <div class="panel-body" id="account-profile" data-account-name="fidelity investments" data-account-domain="fidelity.com" data-company-name="fidelity">
                     <!--loading content-->
-                    <p class="text-center add-padding-bottom-2x">please&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wait...</p>
+                    <p class="text-center add-padding-bottom-2x">please wait...</p>
                     <div class="cssload-dots">
                     	<div class="cssload-dot"></div>
                     	<div class="cssload-dot"></div>
