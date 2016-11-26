@@ -162,7 +162,7 @@ var dssPrefix = config.dssUrlPrefix;
             </div><!--/.row-->
 
             <div class="row">
-                <div class="col-xs-12 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
                     <div class="panel panel-red panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
@@ -175,7 +175,7 @@ var dssPrefix = config.dssUrlPrefix;
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
                     <div class="panel panel-orange panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
@@ -188,7 +188,7 @@ var dssPrefix = config.dssUrlPrefix;
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
                     <div class="panel panel-teal panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
@@ -201,7 +201,7 @@ var dssPrefix = config.dssUrlPrefix;
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
                     <div class="panel panel-midnight-blue panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
@@ -214,7 +214,7 @@ var dssPrefix = config.dssUrlPrefix;
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
                     <div class="panel panel-amethyst panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
@@ -227,7 +227,7 @@ var dssPrefix = config.dssUrlPrefix;
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2 col-lg-2">
+                <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2">
                     <div class="panel panel-emarald panel-widget boxshadow">
                         <div class="row no-padding">
                             <div class="col-sm-12 col-lg-5 widget-left">
