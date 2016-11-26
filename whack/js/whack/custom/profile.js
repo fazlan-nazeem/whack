@@ -140,7 +140,7 @@ var viewData = function (data) {
 };
 
 var equalheight = function (container) {
-    var currentTallest = 500,
+    var currentTallest = 0,
         currentRowStart = 0,
         rowDivs = new Array(),
         $el,
@@ -171,10 +171,12 @@ var equalheight = function (container) {
 
 $(window).load(function () {
     equalheight('.panel-same-height');
+    equalheight('.panel-bant-prob-same-height');
 });
 
 $(window).resize(function () {
     equalheight('.panel-same-height');
+    equalheight('.panel-bant-prob-same-height');
 });
 
 var getProductSpecificActivity = function () {

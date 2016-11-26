@@ -685,6 +685,21 @@ h1.page-header {
 	width: 60px;
 }
 
+#easypiechart-bant-probability{
+    position: relative;
+    text-align: center;
+    width: 120px;
+    height: 120px;
+    margin: 10px auto;
+}
+#easypiechart-bant-probability .percent{
+    display: block;
+    position: absolute;
+    font-size: 30px;
+    top: 45px;
+    width: 120px;
+}
+
 #easypiechart-blue .percent { color: #30a5ff;}
 #easypiechart-teal .percent { color: #1ebfae;}
 #easypiechart-orange .percent { color: #ffb53e;}
@@ -694,6 +709,8 @@ h1.page-header {
 #easypiechart-2 .percent { color: #1ebfae;}
 #easypiechart-3 .percent { color: #ffb53e;}
 #easypiechart-4 .percent { color: #ef4040;}
+
+#easypiechart-bant-probability .percent { color: #fff;}
 
 /*Calendar Widget*/
 
@@ -1587,4 +1604,7 @@ footer .glyph{
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus{
     color:#fff;
     background:#1b9bff;
+}
+.table-interest>tbody>tr>th, .table-interest>tbody>tr>td{
+    vertical-align:middle;
 }

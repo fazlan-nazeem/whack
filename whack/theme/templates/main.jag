@@ -71,9 +71,9 @@ var urlPrefix = config.urlPrefix;
         <div class="col-sm-9 col-lg-9 main">
 
             <div class="row">
-                <div class="col-xs-12 col-md-12 col-lg-12">
-                   <div class="panel panel-default boxshadow">
-                       <div class="panel-heading">BANT Timeline</div>
+                <div class="col-xs-12 col-md-8 col-lg-8">
+                   <div class="panel panel-default boxshadow panel-bant-prob-same-height">
+                       <div class="panel-heading">Current BANT Timeline</div>
                        <div class="panel-body">
                             <section class="cd-horizontal-timeline">
                                 <div class="timeline">
@@ -97,6 +97,14 @@ var urlPrefix = config.urlPrefix;
                             </section>
                        </div>
                    </div>
+                </div>
+                <div class="col-xs-12 col-md-4 col-lg-4">
+                    <div class="panel panel-red boxshadow panel-bant-prob-same-height">
+                        <div class="panel-heading dark-overlay">BANT Probabilty</div>
+                        <div class="panel-body">
+                            <div class="easypiechart" id="easypiechart-bant-probability" data-percent="80%" ><span class="percent">80%</span></div>
+                        </div>
+                    </div>
                 </div>
             </div><!--/.row-->
 
@@ -128,26 +136,38 @@ var urlPrefix = config.urlPrefix;
                 </div>
                 <div class="col-sm-5 col-lg-5">
                     <div class="panel panel-default boxshadow panel-same-height">
-                        <div class="panel-heading">Raw Lead Categories</div>
+                        <div class="panel-heading">Top Interested Parties</div>
                         <div class="panel-body easypiechart-panel">
                             <div class="row no-padding add-padding-left-2x add-padding-right-2x">
-                                <table class="col-sm-12">
-                                    <tr>
-                                        <td class="t-left description-cell">Top Management</td>
-                                        <td><div class="easypiechart" id="easypiechart-1" data-percent="40" ><span class="percent">40%</span></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="t-left">Middle Management</td>
-                                        <td><div class="easypiechart" id="easypiechart-2" data-percent="20" ><span class="percent">20%</span></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="t-left">Normal</td>
-                                        <td><div class="easypiechart" id="easypiechart-3" data-percent="70" ><span class="percent">70%</span></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="t-left">Other</td>
-                                        <td><div class="easypiechart" id="easypiechart-4" data-percent="90" ><span class="percent">90%</span></div></td>
-                                    </tr>
+                                <table class="table table-interest">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="t-left">CEO</td>
+                                            <td class="t-left">Fazlan</td>
+                                            <td class="t-left">fazlan@wso2.com</td>
+                                            <td><div class="easypiechart" id="easypiechart-1" data-percent="40" ><span class="percent">40%</span></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="t-left">CEO</td>
+                                            <td class="t-left">Fazlan</td>
+                                            <td class="t-left">fazlan@wso2.com</td>
+                                            <td><div class="easypiechart" id="easypiechart-2" data-percent="20" ><span class="percent">20%</span></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="t-left">CEO</td>
+                                            <td class="t-left">Fazlan</td>
+                                            <td class="t-left">fazlan@wso2.com</td>
+                                            <td><div class="easypiechart" id="easypiechart-3" data-percent="70" ><span class="percent">70%</span></div></td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
