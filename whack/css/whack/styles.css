@@ -1568,7 +1568,7 @@ footer .glyph{
 }
 
 #account-profile {
-    height: 200px;
+    min-height: 200px;
     -webkit-transition: height 300ms ease-in-out;
     -moz-transition: height 300ms ease-in-out;
     -o-transition: height 300ms ease-in-out;

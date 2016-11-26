@@ -10,7 +10,7 @@ var urlPrefix = config.urlPrefix;
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AuntieSocial</title>
+<title>AuntieSocial - Profile</title>
 <link rel="shortcut icon" href="<%=urlPrefix%>libs/theme-wso2_1.0/images/favicon.png" />
 <link href="<%=urlPrefix%>/css/whack/bootstrap.min.css" rel="stylesheet">
 <link href="<%=urlPrefix%>/css/whack/datepicker3.css" rel="stylesheet">
