@@ -1,0 +1,95 @@
+<data description="multiple services per each table" disableLegacyBoxcarringMode="false" enableBatchRequests="false" enableBoxcarring="false" name="productactivity_DataService" serviceNamespace="http://ws.wso2.org/dataservice" serviceStatus="active">
+   <config id="default">
+      <property name="carbon_datasource_name">whackdb</property>
+   </config>
+   <query id="insert_productactivity_query" useConfig="default">
+      <sql>INSERT INTO productactivity(AccountName,ProductType,DownloadCount,WebinarCount,WhitepaperCount,CasestudyCount,WorkshopCount,Wso2conCount) VALUES(?,?,?,?,?,?,?,?)</sql>
+      <param name="AccountName" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="ProductType" ordinal="2" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="DownloadCount" ordinal="3" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="WebinarCount" ordinal="4" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="WhitepaperCount" ordinal="5" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="CasestudyCount" ordinal="6" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="WorkshopCount" ordinal="7" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="Wso2conCount" ordinal="8" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+   </query>
+   <query id="update_productactivity_query" useConfig="default">
+      <sql>UPDATE productactivity SET ProductType=?,DownloadCount=?,WebinarCount=?,WhitepaperCount=?,CasestudyCount=?,WorkshopCount=?,Wso2conCount=? WHERE AccountName=?</sql>
+      <param name="ProductType" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="DownloadCount" ordinal="2" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="WebinarCount" ordinal="3" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="WhitepaperCount" ordinal="4" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="CasestudyCount" ordinal="5" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="WorkshopCount" ordinal="6" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="Wso2conCount" ordinal="7" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="AccountName" ordinal="8" paramType="SCALAR" sqlType="STRING" type="IN"/>
+   </query>
+   <query id="delete_productactivity_query" useConfig="default">
+      <sql>DELETE FROM productactivity WHERE AccountName=?</sql>
+      <param name="AccountName" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN"/>
+   </query>
+   <query id="select_with_key_productactivity_query" useConfig="default">
+      <sql>SELECT AccountName, ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount, WorkshopCount, Wso2conCount FROM productactivity WHERE AccountName=?</sql>
+      <param name="AccountName" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <result element="productactivityCollection" rowName="productactivity">
+         <element column="AccountName" name="AccountName" xsdType="xs:string"/>
+         <element column="ProductType" name="ProductType" xsdType="xs:string"/>
+         <element column="DownloadCount" name="DownloadCount" xsdType="xs:integer"/>
+         <element column="WebinarCount" name="WebinarCount" xsdType="xs:integer"/>
+         <element column="WhitepaperCount" name="WhitepaperCount" xsdType="xs:integer"/>
+         <element column="CasestudyCount" name="CasestudyCount" xsdType="xs:integer"/>
+         <element column="WorkshopCount" name="WorkshopCount" xsdType="xs:integer"/>
+         <element column="Wso2conCount" name="Wso2conCount" xsdType="xs:integer"/>
+      </result>
+   </query>
+   <query id="select_all_productactivity_query" useConfig="default">
+      <sql>SELECT AccountName, ProductType, DownloadCount, WebinarCount, WhitepaperCount, CasestudyCount, WorkshopCount, Wso2conCount FROM productactivity</sql>
+      <result element="productactivityCollection" rowName="productactivity">
+         <element column="AccountName" name="AccountName" xsdType="xs:string"/>
+         <element column="ProductType" name="ProductType" xsdType="xs:string"/>
+         <element column="DownloadCount" name="DownloadCount" xsdType="xs:integer"/>
+         <element column="WebinarCount" name="WebinarCount" xsdType="xs:integer"/>
+         <element column="WhitepaperCount" name="WhitepaperCount" xsdType="xs:integer"/>
+         <element column="CasestudyCount" name="CasestudyCount" xsdType="xs:integer"/>
+         <element column="WorkshopCount" name="WorkshopCount" xsdType="xs:integer"/>
+         <element column="Wso2conCount" name="Wso2conCount" xsdType="xs:integer"/>
+      </result>
+   </query>
+   <operation name="update_productactivity_operation">
+      <call-query href="update_productactivity_query">
+         <with-param name="CasestudyCount" query-param="CasestudyCount"/>
+         <with-param name="DownloadCount" query-param="DownloadCount"/>
+         <with-param name="ProductType" query-param="ProductType"/>
+         <with-param name="AccountName" query-param="AccountName"/>
+         <with-param name="WorkshopCount" query-param="WorkshopCount"/>
+         <with-param name="Wso2conCount" query-param="Wso2conCount"/>
+         <with-param name="WebinarCount" query-param="WebinarCount"/>
+         <with-param name="WhitepaperCount" query-param="WhitepaperCount"/>
+      </call-query>
+   </operation>
+   <operation name="delete_productactivity_operation">
+      <call-query href="delete_productactivity_query">
+         <with-param name="AccountName" query-param="AccountName"/>
+      </call-query>
+   </operation>
+   <operation name="insert_productactivity_operation">
+      <call-query href="insert_productactivity_query">
+         <with-param name="CasestudyCount" query-param="CasestudyCount"/>
+         <with-param name="DownloadCount" query-param="DownloadCount"/>
+         <with-param name="ProductType" query-param="ProductType"/>
+         <with-param name="WorkshopCount" query-param="WorkshopCount"/>
+         <with-param name="AccountName" query-param="AccountName"/>
+         <with-param name="Wso2conCount" query-param="Wso2conCount"/>
+         <with-param name="WebinarCount" query-param="WebinarCount"/>
+         <with-param name="WhitepaperCount" query-param="WhitepaperCount"/>
+      </call-query>
+   </operation>
+   <operation name="select_with_key_productactivity_operation">
+      <call-query href="select_with_key_productactivity_query">
+         <with-param name="AccountName" query-param="AccountName"/>
+      </call-query>
+   </operation>
+   <operation name="select_all_productactivity_operation">
+      <call-query href="select_all_productactivity_query"/>
+   </operation>
+</data>

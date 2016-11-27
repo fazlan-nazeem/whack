@@ -13,7 +13,7 @@ define stream sql_activity_stream (FirstName string, LastName string, Email stri
 define stream RLStream (FirstName string, LastName string, Email string, Title string, Company string, Country string, IP string, Activity string, Timestamp string, Region string, Source string, Source_Detail string);
 
 @Export('outStreamBeforePrediction:1.0.0')
-define stream OutputStream (TitleCat string, RLMaxTitle string, Act1_rate double, Act2_rate double, Act3_rate double, Act4_rate double, Act5_rate double, Act6_rate double, AccntAct_rate double, sqlState int);
+define stream OutputStream (TitleCat string, RLMaxTitle string, Act1_rate double, Act2_rate double, Act3_rate double, Act4_rate double, Act5_rate double, Act6_rate double, AccntAct_rate double, state int, AccountName string);
 
 
 @From(eventtable='rdbms', jdbc.url='jdbc:mysql://localhost:3306/cepdb', username='root', password='321', driver.name='com.mysql.jdbc.Driver', table.name='RLinfoTable')
@@ -22,30 +22,33 @@ define table RLinfoTable (AccountName string, MaxTitle string, MinRLDate string,
 @From(eventtable='rdbms', jdbc.url='jdbc:mysql://localhost:3306/cepdb', username='root', password='321', driver.name='com.mysql.jdbc.Driver', table.name='individualRL')
 define table individualRLTable (email string, act1count int, act2count int, act3count int,act4count int,act5count int,act6count int, MinRLDate string);
 
+@From(eventtable='rdbms', jdbc.url='jdbc:mysql://localhost:3306/whackdb', username='root', password='321', driver.name='com.mysql.jdbc.Driver', table.name='customerBant')
+define table customerBant (AccountName string, Prediction double, Timestamp long);
+
 
 /* 1) Timestamp Cleaning */
 
 from  sql_activity_stream 
-select FirstName, LastName, Email, Title, Company, Country ,IPaddress as IP, Activity,time:dateFormat(Timestamp, 'yyyy-MM-dd', 'MM/dd/yy')  as Timestamp, Source, SourceDetail as Source_Detail, 1 as sqlState
+select FirstName, LastName, Email, Title, Company, Country ,IPaddress as IP, Activity,time:dateFormat(Timestamp, 'yyyy-MM-dd', 'MM/dd/yy')  as Timestamp, Source, SourceDetail as Source_Detail, 1 as state
 insert into  RLStreamModified;
 
 from RLStream
-select FirstName, LastName, Email, Title, Company, Country , IP, Activity,time:dateFormat(Timestamp, 'yyyy-MM-dd', 'MM/dd/yy')  as Timestamp, Source, Source_Detail, 0 as sqlState
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity,time:dateFormat(Timestamp, 'yyyy-MM-dd', 'MM/dd/yy')  as Timestamp, Source, Source_Detail, 0 as state
 insert into RLStreamModified;
 
 
 /* 2) Creating Email Domain and Account Name */
 
 from RLStreamModified 
-select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail, regex:group('(@)(.*)(\.)',Email,2)  as EmailDomain, sqlState
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail, regex:group('(@)(.*)(\.)',Email,2)  as EmailDomain, state
 insert into RLStreamModifiedEmailDomain;
 
 from RLStreamModifiedEmailDomain [EmailDomain != 'yahoo' and EmailDomain != 'gmail' and EmailDomain != 'hotmail']
-select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail,EmailDomain, EmailDomain as AccountName, sqlState
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail,EmailDomain, EmailDomain as AccountName, state
 insert into RLStreamModifiedAccountName;
 
 from RLStreamModifiedEmailDomain [EmailDomain == 'yahoo' or EmailDomain == 'gmail' or EmailDomain == 'hotmail']
-select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail,EmailDomain, Company as AccountName, sqlState
+select FirstName, LastName, Email, Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail,EmailDomain, Company as AccountName, state
 insert into RLStreamModifiedAccountName;
 
 
@@ -54,20 +57,20 @@ insert into RLStreamModifiedAccountName;
 from RLStreamModifiedAccountName [str:lower(Title) != 'analyst' and str:lower(Title) != 'developer' and str:lower(Title) != 'programmer' and str:lower(Title) != 'associate' and str:lower(Title) != 'intern' and str:lower(Title) != 'cashier'
 					   and str:lower(Title) != 'architect' and str:lower(Title) != 'admin' and str:lower(Title) != 'scientist' and str:lower(Title) != 'manager' and str:lower(Title) != 'engineer' and str:lower(Title) != 'eng' and str:lower(Title) != 'sse' and str:lower(Title) != 'lead' 
 					   and str:lower(Title) != 'head' and str:lower(Title) != 'chief' and str:lower(Title) !=  'president' and str:lower(Title) != 'director' and str:lower(Title) != 'chairman' and str:lower(Title) != 'vp' and str:lower(Title) != 'cio' and str:lower(Title) != 'cfo' and str:lower(Title) != 'ceo' and str:lower(Title) != 'coo']
-select FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,'1' as TitleCategory, sqlState
+select FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,'1' as TitleCategory, state
 insert into RLStreamModifiedWithTitleCat;
 
 from RLStreamModifiedAccountName [str:lower(Title) == 'analyst' or str:lower(Title) == 'developer' or str:lower(Title) == 'programmer' or str:lower(Title) == 'associate' or str:lower(Title) == 'intern' or str:lower(Title) == 'cashier']
-select FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail,EmailDomain, AccountName,'2' as TitleCategory, sqlState
+select FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail,EmailDomain, AccountName,'2' as TitleCategory, state
 insert into RLStreamModifiedWithTitleCat;
 
 from RLStreamModifiedAccountName [str:lower(Title) == 'architect' or str:lower(Title) == 'admin' or str:lower(Title) == 'scientist' or str:lower(Title) == 'manager' or str:lower(Title) == 'engineer' or str:lower(Title) == 'eng' or str:lower(Title) == 'sse' or str:lower(Title) == 'lead']
-select FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail,EmailDomain, AccountName,'3' as TitleCategory , sqlState
+select FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail,EmailDomain, AccountName,'3' as TitleCategory , state
 insert into RLStreamModifiedWithTitleCat;
 
 
 from RLStreamModifiedAccountName [str:lower(Title) == 'head' or str:lower(Title) == 'chief' or str:lower(Title) ==  'president' or str:lower(Title) == 'director' or str:lower(Title) == 'chairman' or str:lower(Title) == 'vp' or str:lower(Title) == 'cio' or str:lower(Title) == 'cfo' or str:lower(Title) == 'ceo' or str:lower(Title) == 'coo']
-select FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail,EmailDomain, AccountName,'4' as TitleCategory, sqlState
+select FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail,EmailDomain, AccountName,'4' as TitleCategory, state
 insert into RLStreamModifiedWithTitleCat;
 
 
@@ -78,33 +81,33 @@ from RLStreamModifiedWithTitleCat [(not str:contains(str:lower(Activity),'downlo
 								   and (not str:contains(str:lower(Activity),'whitepaper')) and (not str:contains(str:lower(Activity),'analyst report')) and (not str:contains(str:lower(Activity),'case')) 
 								   and (not str:contains(str:lower(Activity),'workshop')) and (not str:contains(str:lower(Activity),'wso2con'))
 								   and (not str:contains(str:lower(Activity),'contact')) and (not str:contains(str:lower(Activity),'support'))]
-select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '6' as ActivityCategory, sqlState
+select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '6' as ActivityCategory, state
 insert into RLStreamModifiedWithActivityCat;
 
 from RLStreamModifiedWithTitleCat [str:contains(str:lower(Activity),'download')]
-select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '1' as ActivityCategory, sqlState
+select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '1' as ActivityCategory, state
 insert into RLStreamModifiedWithActivityCat;
 
 
 from RLStreamModifiedWithTitleCat [str:contains(str:lower(Activity),'webinar')]
-select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '2' as ActivityCategory, sqlState
+select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '2' as ActivityCategory, state
 insert into RLStreamModifiedWithActivityCat;
 
 
 from RLStreamModifiedWithTitleCat [str:contains(str:lower(Activity),'whitepaper') or str:contains(str:lower(Activity),'analyst report') or str:contains(str:lower(Activity),'case') ]
-select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '3' as ActivityCategory, sqlState
+select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '3' as ActivityCategory, state
 insert into RLStreamModifiedWithActivityCat;
 
 
 
 from RLStreamModifiedWithTitleCat [str:contains(str:lower(Activity),'workshop') or str:contains(str:lower(Activity),'wso2con') ]
-select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '4' as ActivityCategory, sqlState
+select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp,  Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '4' as ActivityCategory, state
 insert into RLStreamModifiedWithActivityCat;
 
 								   
 
 from RLStreamModifiedWithTitleCat [ str:contains(str:lower(Activity),'contact') or str:contains(str:lower(Activity),'support') ]
-select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '5' as ActivityCategory, sqlState
+select 	FirstName, LastName, Email,Title, Company, Country , IP, Activity, Timestamp, Source, Source_Detail, EmailDomain, AccountName,TitleCategory, '5' as ActivityCategory, state
 insert into RLStreamModifiedWithActivityCat;
 
 
@@ -140,15 +143,15 @@ on AccountName == RLinfoTable.AccountName;
 
 from RLStreamModifiedWithActivityCat join RLinfoTable
 on RLStreamModifiedWithActivityCat.AccountName == RLinfoTable.AccountName
-select RLinfoTable.AccountName, RLinfoTable.MaxTitle, RLinfoTable.MinRLDate, RLinfoTable.ActivityCount, Timestamp, sqlState
+select RLinfoTable.AccountName, RLinfoTable.MaxTitle, RLinfoTable.MinRLDate, RLinfoTable.ActivityCount, Timestamp, state
 insert into  RLStreamModifiedGroup;
 
 from RLStreamModifiedGroup [time:dateDiff(Timestamp,MinRLDate,'yyyy-MM-dd','yyyy-MM-dd') <= 30]
-select  AccountName, MaxTitle, MinRLDate, ActivityCount, 1.0 as denominator, sqlState
+select  AccountName, MaxTitle, MinRLDate, ActivityCount, 1.0 as denominator, state
 insert into RLStreamModifiedGroup2;
 
 from RLStreamModifiedGroup [time:dateDiff(Timestamp,MinRLDate,'yyyy-MM-dd','yyyy-MM-dd') > 30]
-select RLinfoTable.AccountName, RLinfoTable.MaxTitle, RLinfoTable.MinRLDate, RLinfoTable.ActivityCount,(convert(time:dateDiff(Timestamp,MinRLDate,'yyyy-MM-dd','yyyy-MM-dd')/30,'double') + 1) as denominator, sqlState
+select RLinfoTable.AccountName, RLinfoTable.MaxTitle, RLinfoTable.MinRLDate, RLinfoTable.ActivityCount,(convert(time:dateDiff(Timestamp,MinRLDate,'yyyy-MM-dd','yyyy-MM-dd')/30,'double') + 1) as denominator, state
 insert into RLStreamModifiedGroup2;
 
 /* 6) fetch MinRLDate, activity rates from db individual level */
@@ -235,7 +238,7 @@ insert into individualRLTable;
 from RLStreamModifiedWithActivityCat join individualRLTable
 on RLStreamModifiedWithActivityCat.Email == individualRLTable.email
 select  Email, Timestamp,  AccountName, TitleCategory,
-ActivityCategory, MinRLDate, sqlState
+ActivityCategory, MinRLDate, state
 insert into DateStream;
 
 from DateStream [time:dateDiff(Timestamp,MinRLDate,'yyyy-MM-dd','yyyy-MM-dd') <= 30]
@@ -267,12 +270,22 @@ insert into  RLStreamModifiedIndividualActRate;
 from RLStreamModifiedGroup2,RLStreamModifiedIndividualActRate
 select RLStreamModifiedIndividualActRate.TitleCategory, RLStreamModifiedGroup2.MaxTitle as MaxTitle,
 Act1Rate,Act2Rate, Act3Rate,Act4Rate,Act5Rate,Act6Rate, 
-(ActivityCount)/denominator as AccntActRate ,sqlState
+(ActivityCount)/denominator as AccntActRate ,state,RLStreamModifiedGroup2.AccountName
 insert into RLStreamModifiedWithActivityRate;
 
 
 /* The output stream */
 
 from RLStreamModifiedWithActivityRate
-select  TitleCategory as TitleCat, MaxTitle as RLMaxTitle ,Act1Rate as Act1_rate, Act2Rate as Act2_rate, Act3Rate as Act3_rate,Act4Rate as Act4_rate, Act5Rate as Act5_rate,Act6Rate as Act6_rate,AccntActRate as AccntAct_rate, sqlState
+select  TitleCategory as TitleCat, MaxTitle as RLMaxTitle ,Act1Rate as Act1_rate, Act2Rate as Act2_rate, Act3Rate as Act3_rate,Act4Rate as Act4_rate, Act5Rate as Act5_rate,Act6Rate as Act6_rate,AccntActRate as AccntAct_rate, state  , AccountName
 insert into OutputStream;
+
+from OutputStream
+select  TitleCat,  RLMaxTitle  ,Act1_rate, Act2_rate,  Act3_rate, Act4_rate,  Act5_rate, Act6_rate, AccntAct_rate, state
+insert into OutputStreamRequest;
+
+from OutputStream
+select AccountName, ((-0.08830152892846507 * math:parseInt(TitleCat)) + (0.1621566064638807 * math:parseInt(RLMaxTitle)) + (Act1_rate * -0.018238598197299193) + (Act2_rate * -0.016441453725557) + (Act3_rate * -0.045520608577430045) + (Act4_rate * 0.33260315589120076) + (Act5_rate * -0.229) + (Act6_rate * -0.033) + (AccntAct_rate * 0.0130) + (state * 1.0430128378571444) - 2.086) as Prediction, 
+time:timestampInMilliseconds() as Timestamp
+insert overwrite customerBant
+on (AccountName == customerBant.AccountName);

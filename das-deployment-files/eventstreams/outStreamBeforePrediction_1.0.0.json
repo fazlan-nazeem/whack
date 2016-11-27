@@ -41,8 +41,12 @@
       "type": "DOUBLE"
     },
     {
-      "name": "sqlState",
+      "name": "state",
       "type": "INT"
+    },
+    {
+      "name": "AccountName",
+      "type": "STRING"
     }
   ]
 }

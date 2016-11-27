@@ -1,0 +1,80 @@
+<data disableStreaming="true" name="whackdb" transports="http https local">
+   <config enableOData="false" id="whackdb">
+      <property name="carbon_datasource_name">whackdb</property>
+   </config>
+   <query id="selectTotalActivityForAccount2" useConfig="whackdb">
+      <sql>SELECT sum(DownloadCount) as Download, Sum(WebinarCount) as Webinar, Sum(WhitepaperCount) as Whitepaper, Sum(CasestudyCount) as Casestudy, Sum(WorkshopCount) as Workshop, Sum(Wso2conCount) as wso2Con FROM productactivity where AccountName = :AccountName</sql>
+      <result outputType="json">{&#xd;response:{&#xd;"Download":"$Download",&#xd;"Webinar":"$Webinar",&#xd;"Whitepaper":"$Whitepaper",&#xd;"Casestudy":"$Casestudy",&#xd;"Workshop":"$Workshop",&#xd;"wso2con":"$wso2con",&#xd;}&#xd;}         &#xd;         &#xd;         &#xd;         &#xd;         &#xd;         &#xd;      </result>
+      <param name="AccountName" sqlType="STRING"/>
+   </query>
+   <query id="selectUserActivity" useConfig="whackdb">
+      <sql>SELECT FirstName, Email, Title, ActivityCount FROM userengagement where accountname = :AccountName order by ACTIVITYCOUNT DESC Limit 5</sql>
+      <result outputType="json">{responses:{"response":[{&#xd;"FirstName":"$FirstName",&#xd;"Email":"$Email",&#xd;"Title":"$Title",&#xd;"ActivityCount":"$ActivityCount"&#xd;}]}&#xd;}         &#xd;         &#xd;         &#xd;         &#xd;      </result>
+      <param name="AccountName" sqlType="STRING"/>
+   </query>
+   <query id="selectUserCount" useConfig="whackdb">
+      <sql>SELECT count(*) as count FROM whackdb.userengagement where Timestamp &gt; :timestamp</sql>
+      <result outputType="json">         &#xd;      {response:{&#xd;"count":"$count"&#xd;}&#xd;}   </result>
+      <param name="timestamp" sqlType="STRING"/>
+   </query>
+   <query id="selectPrediction" useConfig="whackdb">
+      <sql>SELECT AccountName,Prediction,Timestamp FROM customerBant where AccountName = :AName</sql>
+      <result outputType="json"> {responses:{&#xd;"AccountName":"$AccountName",&#xd;"Prediction":"$Prediction",&#xd;"Timestamp":"$Timestamp"}&#xd;} </result>
+      <param name="AName" sqlType="STRING"/>
+   </query>
+   <query id="selectPredictionAll" useConfig="whackdb">
+      <sql>SELECT AccountName,Prediction,Timestamp FROM customerBant order by Prediction desc</sql>
+      <result outputType="json"> {responses:{"response":[{&#xd;"AccountName":"$AccountName",&#xd;"Prediction":"$Prediction",&#xd;"Timestamp":"$Timestamp"}]}&#xd;} </result>
+      <param name="AccountName" sqlType="STRING"/>
+   </query>
+   <operation name="getActivities">
+      <call-query href="selectTotalActivityForAccount2">
+         <with-param name="AccountName" query-param="AccountName"/>
+      </call-query>
+   </operation>
+   <operation name="getUserActivities">
+      <call-query href="selectUserActivity">
+         <with-param name="AccountName" query-param="AccountName"/>
+      </call-query>
+   </operation>
+   <operation name="getUserCount">
+      <call-query href="selectUserCount">
+         <with-param name="timestamp" query-param="timestamp"/>
+      </call-query>
+   </operation>
+   <operation name="getAccountTeam">
+      <call-query href="selectPrediction">
+         <with-param name="AName" query-param="AName"/>
+      </call-query>
+   </operation>
+   <operation name="getAllAccountTeam">
+      <call-query href="selectPredictionAll">
+         <with-param name="AccountName" query-param="AccountName"/>
+      </call-query>
+   </operation>
+   <resource method="GET" path="/getActivities">
+      <call-query href="selectTotalActivityForAccount2">
+         <with-param name="AccountName" query-param="AccountName"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/getUserActivities">
+      <call-query href="selectUserActivity">
+         <with-param name="AccountName" query-param="AccountName"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/getUserCount">
+      <call-query href="selectUserCount">
+         <with-param name="timestamp" query-param="timestamp"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/getAccountTeam">
+      <call-query href="selectPrediction">
+         <with-param name="AName" query-param="AName"/>
+      </call-query>
+   </resource>
+   <resource method="GET" path="/getAllAccountTeam">
+      <call-query href="selectPredictionAll">
+         <with-param name="AccountName" query-param="AccountName"/>
+      </call-query>
+   </resource>
+</data>

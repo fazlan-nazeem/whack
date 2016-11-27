@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?><streamConfiguration type="csv"><file>bantactivities.csv</file><streamID>sql_activity_stream:1.0.0</streamID><separateChar>,</separateChar><delayBetweenEventsInMilies>500</delayBetweenEventsInMilies></streamConfiguration>
+<?xml version="1.0" encoding="UTF-8"?><streamConfiguration type="csv"><file>bantactivities.csv</file><streamID>bant_activity_stream:1.0.0</streamID><separateChar>,</separateChar><delayBetweenEventsInMilies>10</delayBetweenEventsInMilies></streamConfiguration>

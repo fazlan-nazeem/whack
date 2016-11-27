@@ -1,0 +1,89 @@
+<data description="multiple services per each table" disableLegacyBoxcarringMode="false" enableBatchRequests="false" enableBoxcarring="false" name="userengagement_DataService" serviceNamespace="http://ws.wso2.org/dataservice" serviceStatus="active">
+   <config id="default">
+      <property name="carbon_datasource_name">whackdb</property>
+   </config>
+   <query id="insert_userengagement_query" useConfig="default">
+      <sql>INSERT INTO userengagement(ACCOUNTNAME,EMAIL,TITLE,ACTIVITYCOUNT,FirstName,LastName,Timestamp) VALUES(?,?,?,?,?,?,?)</sql>
+      <param name="ACCOUNTNAME" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="EMAIL" ordinal="2" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="TITLE" ordinal="3" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="ACTIVITYCOUNT" ordinal="4" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="FirstName" ordinal="5" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="LastName" ordinal="6" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="Timestamp" ordinal="7" paramType="SCALAR" sqlType="BIGINT" type="IN"/>
+   </query>
+   <query id="delete_userengagement_query" useConfig="default">
+      <sql>DELETE FROM userengagement WHERE ACCOUNTNAME=?</sql>
+      <param name="ACCOUNTNAME" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN"/>
+   </query>
+   <query id="update_userengagement_query" useConfig="default">
+      <sql>UPDATE userengagement SET EMAIL=?,TITLE=?,ACTIVITYCOUNT=?,FirstName=?,LastName=?,Timestamp=? WHERE ACCOUNTNAME=?</sql>
+      <param name="EMAIL" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="TITLE" ordinal="2" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="ACTIVITYCOUNT" ordinal="3" paramType="SCALAR" sqlType="INTEGER" type="IN"/>
+      <param name="FirstName" ordinal="4" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="LastName" ordinal="5" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <param name="Timestamp" ordinal="6" paramType="SCALAR" sqlType="BIGINT" type="IN"/>
+      <param name="ACCOUNTNAME" ordinal="7" paramType="SCALAR" sqlType="STRING" type="IN"/>
+   </query>
+   <query id="select_with_key_userengagement_query" useConfig="default">
+      <sql>SELECT ACCOUNTNAME, EMAIL, TITLE, ACTIVITYCOUNT, FirstName, LastName, Timestamp FROM userengagement WHERE ACCOUNTNAME=?</sql>
+      <param name="ACCOUNTNAME" ordinal="1" paramType="SCALAR" sqlType="STRING" type="IN"/>
+      <result element="userengagementCollection" rowName="userengagement">
+         <element column="ACCOUNTNAME" name="ACCOUNTNAME" xsdType="xs:string"/>
+         <element column="EMAIL" name="EMAIL" xsdType="xs:string"/>
+         <element column="TITLE" name="TITLE" xsdType="xs:string"/>
+         <element column="ACTIVITYCOUNT" name="ACTIVITYCOUNT" xsdType="xs:integer"/>
+         <element column="FirstName" name="FirstName" xsdType="xs:string"/>
+         <element column="LastName" name="LastName" xsdType="xs:string"/>
+         <element column="Timestamp" name="Timestamp" xsdType="xs:long"/>
+      </result>
+   </query>
+   <query id="select_all_userengagement_query" useConfig="default">
+      <sql>SELECT ACCOUNTNAME, EMAIL, TITLE, ACTIVITYCOUNT, FirstName, LastName, Timestamp FROM userengagement</sql>
+      <result element="userengagementCollection" rowName="userengagement">
+         <element column="ACCOUNTNAME" name="ACCOUNTNAME" xsdType="xs:string"/>
+         <element column="EMAIL" name="EMAIL" xsdType="xs:string"/>
+         <element column="TITLE" name="TITLE" xsdType="xs:string"/>
+         <element column="ACTIVITYCOUNT" name="ACTIVITYCOUNT" xsdType="xs:integer"/>
+         <element column="FirstName" name="FirstName" xsdType="xs:string"/>
+         <element column="LastName" name="LastName" xsdType="xs:string"/>
+         <element column="Timestamp" name="Timestamp" xsdType="xs:long"/>
+      </result>
+   </query>
+   <operation name="update_userengagement_operation">
+      <call-query href="update_userengagement_query">
+         <with-param name="FirstName" query-param="FirstName"/>
+         <with-param name="EMAIL" query-param="EMAIL"/>
+         <with-param name="ACCOUNTNAME" query-param="ACCOUNTNAME"/>
+         <with-param name="LastName" query-param="LastName"/>
+         <with-param name="Timestamp" query-param="Timestamp"/>
+         <with-param name="ACTIVITYCOUNT" query-param="ACTIVITYCOUNT"/>
+         <with-param name="TITLE" query-param="TITLE"/>
+      </call-query>
+   </operation>
+   <operation name="insert_userengagement_operation">
+      <call-query href="insert_userengagement_query">
+         <with-param name="FirstName" query-param="FirstName"/>
+         <with-param name="EMAIL" query-param="EMAIL"/>
+         <with-param name="LastName" query-param="LastName"/>
+         <with-param name="ACCOUNTNAME" query-param="ACCOUNTNAME"/>
+         <with-param name="Timestamp" query-param="Timestamp"/>
+         <with-param name="ACTIVITYCOUNT" query-param="ACTIVITYCOUNT"/>
+         <with-param name="TITLE" query-param="TITLE"/>
+      </call-query>
+   </operation>
+   <operation name="delete_userengagement_operation">
+      <call-query href="delete_userengagement_query">
+         <with-param name="ACCOUNTNAME" query-param="ACCOUNTNAME"/>
+      </call-query>
+   </operation>
+   <operation name="select_all_userengagement_operation">
+      <call-query href="select_all_userengagement_query"/>
+   </operation>
+   <operation name="select_with_key_userengagement_operation">
+      <call-query href="select_with_key_userengagement_query">
+         <with-param name="ACCOUNTNAME" query-param="ACCOUNTNAME"/>
+      </call-query>
+   </operation>
+</data>

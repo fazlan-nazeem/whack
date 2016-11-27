@@ -1,0 +1,22 @@
+CREATE TEMPORARY TABLE OUTSTREAMBEFOREPREDICTION_TMP USING CarbonAnalytics OPTIONS(tableName "OUTSTREAMBEFOREPREDICTION");
+
+CREATE TEMPORARY TABLE OUTSTREAMBEFOREPREDICTION_SUMMARY using CarbonJDBC options (dataSource "AdalaNane", tableName "OUTSTREAMBEFOREPREDICTION_SUM", schema "TitleCat INTEGER, MaxTitle INTEGER, Act1_rate FLOAT, Act2_rate FLOAT, Act3_rate FLOAT, Act4_rate FLOAT, Act5_rate FLOAT, Act6_rate FLOAT, AccnAct_rate FLOAT, state INTEGER, AccountName STRING, BANT INTEGER");
+
+CREATE TEMPORARY TABLE BANTED_ACCOUNT_NAME_TMP USING CarbonAnalytics OPTIONS(tableName "BANTED_ACCOUNT_NAME");
+
+insert into table OUTSTREAMBEFOREPREDICTION_SUMMARY select le.TitleCat, le.RLMaxTitle, le.Act1_rate, le.Act2_rate, le.Act3_rate, le.Act4_rate, le.Act5_rate, le.Act6_rate,le.AccntAct_rate , le.state ,le.AccountName, 
+IF(ri.AccountName IS NOT NULL, 1, 0) as BANT from OUTSTREAMBEFOREPREDICTION_TMP as le LEFT JOIN BANTED_ACCOUNT_NAME_TMP as ri on le.AccountName=ri.AccountName;
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            

@@ -1,0 +1,10 @@
+CREATE TEMPORARY TABLE BANTED_ACCOUNT_NAME_TMP USING CarbonAnalytics OPTIONS(tableName "BANTED_ACCOUNT_NAME");
+
+CREATE TEMPORARY TABLE BANTED_ACCOUNT_NAME_SUMMERY using CarbonJDBC options (dataSource "AdalaNane", tableName "BANTED_ACCOUNT_NAME_SUM", schema "AccountName STRING -i");
+
+insert into table BANTED_ACCOUNT_NAME_SUMMERY select AccountName from BANTED_ACCOUNT_NAME_TMP limit 2;
+
+                            
+                            
+                            
+                            
